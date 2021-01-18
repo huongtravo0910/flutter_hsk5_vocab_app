@@ -3,12 +3,28 @@ import 'package:hsk5_vocab_app/screens/homeScreen/homeScreen.dart';
 import 'package:hsk5_vocab_app/screens/revealCardsScreen/localWidgets/multipyButton.dart';
 import 'package:hsk5_vocab_app/screens/revealCardsScreen/localWidgets/tickButton.dart';
 import 'package:hsk5_vocab_app/screens/revealCardsScreen/revealSreen.dart';
+import 'package:hsk5_vocab_app/state/currentRoomState.dart';
 import 'package:hsk5_vocab_app/widgets/background.dart';
 import 'package:hsk5_vocab_app/widgets/bottomButton.dart';
 import 'package:hsk5_vocab_app/widgets/customedAppBar.dart';
 import 'package:hsk5_vocab_app/widgets/shadowButton.dart';
+import 'package:provider/provider.dart';
 
-class RevealInstructionScreen extends StatelessWidget {
+class RevealInstructionScreen extends StatefulWidget {
+  @override
+  _RevealInstructionScreenState createState() =>
+      _RevealInstructionScreenState();
+}
+
+class _RevealInstructionScreenState extends State<RevealInstructionScreen> {
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    var room = Provider.of<CurrentRoom>(context, listen: false).getRoomModel;
+    debugPrint(room.toString());
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

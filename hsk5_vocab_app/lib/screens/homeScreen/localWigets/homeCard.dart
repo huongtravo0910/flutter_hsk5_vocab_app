@@ -4,12 +4,20 @@ import 'package:hsk5_vocab_app/widgets/shadowContainerButton.dart';
 class HomeCard extends StatelessWidget {
   final String subtitle;
   final String title;
-  const HomeCard({Key key, this.subtitle, @required this.title})
+  final Function onPressed;
+  final bool isChosen;
+  const HomeCard(
+      {Key key,
+      this.subtitle,
+      @required this.title,
+      this.onPressed,
+      this.isChosen})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ShadowContainerButton(
-      onPressed: () {},
+      isChosen: isChosen,
+      onPressed: onPressed,
       margin: 5.0,
       child: Container(
         height: 45,

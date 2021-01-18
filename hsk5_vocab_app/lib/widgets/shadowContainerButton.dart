@@ -4,8 +4,9 @@ class ShadowContainerButton extends StatelessWidget {
   final double margin;
   final Function onPressed;
   final Widget child;
+  final bool isChosen;
   const ShadowContainerButton(
-      {Key key, this.child, this.margin, this.onPressed})
+      {Key key, this.child, this.margin, this.onPressed, this.isChosen})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,12 @@ class ShadowContainerButton extends StatelessWidget {
         margin: EdgeInsets.all(margin),
         padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
         decoration: BoxDecoration(
+            border: Border.all(
+              color: isChosen
+                  ? Theme.of(context).secondaryHeaderColor
+                  : Theme.of(context).primaryColor,
+              width: 2,
+            ),
             borderRadius: BorderRadius.circular(15),
             color: Theme.of(context).primaryColor,
             boxShadow: [

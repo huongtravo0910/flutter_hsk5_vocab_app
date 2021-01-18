@@ -13,6 +13,7 @@ class MethodCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShadowContainerButton(
+      isChosen: false,
       onPressed: onPressed,
       margin: 10,
       child: SizedBox(

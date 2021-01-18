@@ -1,15 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:hsk5_vocab_app/screens/matchingScreen/matchingInstructionScreen.dart';
+import 'package:hsk5_vocab_app/screens/methodsScreen/localWidgets/customedMethodAppBar.dart';
 import 'package:hsk5_vocab_app/screens/methodsScreen/localWidgets/methodCard.dart';
 import 'package:hsk5_vocab_app/screens/methodsScreen/localWidgets/methodDropdown.dart';
-import 'package:hsk5_vocab_app/screens/quizScreen/quizInstructionScreen.dart';
-import 'package:hsk5_vocab_app/screens/revealCardsScreen/revealInstructionScreen.dart';
 import 'package:hsk5_vocab_app/widgets/background.dart';
-import 'package:hsk5_vocab_app/widgets/customedAppBar.dart';
 
-class MethodsScreen extends StatelessWidget {
+class MethodScreenArgs {
+  final int numOfCards;
+  final int startIndex;
+  final int endIndex;
+
+  MethodScreenArgs(
+      {@required this.numOfCards,
+      @required this.startIndex,
+      @required this.endIndex});
+}
+
+class MethodsScreen extends StatefulWidget {
+  // final int numOfCards;
+  // final int startIndex;
+  // final int endIndex;
+  // const MethodsScreen(
+  //     {Key key, this.numOfCards, this.endIndex, this.startIndex})
+  //     : super(key: key);
+  @override
+  _MethodsScreenState createState() => _MethodsScreenState();
+}
+
+class _MethodsScreenState extends State<MethodsScreen> {
+  int _numOfCards;
+  int _startIndex;
+  int _endIndex;
   @override
   Widget build(BuildContext context) {
+    final MethodScreenArgs args = ModalRoute.of(context).settings.arguments;
+    int numOfRooms =
+        ((args.endIndex - args.startIndex + 1) / args.numOfCards).ceil();
+    debugPrint("number of rooms " + numOfRooms.toString());
     return Scaffold(
       body: Stack(children: [
         Background(
@@ -17,19 +43,21 @@ class MethodsScreen extends StatelessWidget {
         ),
         Column(
           children: [
-            Spacer(),
-            CustomedAppBar(
-              child: BackButton(),
+            CustomedMethodAppBar(
+              child2: Text(
+                "Goi 1",
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              child1: BackButton(),
             ),
-            MethodDropdown(),
+            MethodDropdown(
+              endRoomNo: numOfRooms,
+              startIndexOfPackage: args.startIndex,
+              numOfCards: args.numOfCards,
+            ), //Widget can provider
             MethodCard(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => RevealInstructionScreen(),
-                  ),
-                );
+                Navigator.of(context).pushNamed("/revealInstruction");
               },
               icon: Icon(Icons.book),
               subtitle: "Xem cac the co ban",
@@ -37,12 +65,7 @@ class MethodsScreen extends StatelessWidget {
             ),
             MethodCard(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => QuizInstructionScreen(),
-                  ),
-                );
+                Navigator.of(context).pushNamed("/quizInstruction");
               },
               icon: Icon(Icons.playlist_add_check),
               subtitle: "Chon cau tra loi dung",
@@ -50,45 +73,15 @@ class MethodsScreen extends StatelessWidget {
             ),
             MethodCard(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => MatchingInstructionScreen(),
-                  ),
-                );
+                Navigator.of(context).pushNamed("/matchingInstruction");
               },
               icon: Icon(Icons.vertical_split),
               subtitle: "Ghep cac tu voi dinh nghia",
               title: "Noi tu",
             ),
-            SizedBox(
-              height: 60,
-            ),
             Spacer(),
           ],
         ),
-        // Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-        //   Row(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     children: [
-        //       ShadowButton(
-        //         onPressed: () => Navigator.push(
-        //           context,
-        //           MaterialPageRoute(builder: (context) {
-        //             return MethodsScreen();
-        //           }),
-        //         ),
-        //         child: Text(
-        //           "Tiep tuc",
-        //           style: Theme.of(context).textTheme.subtitle2,
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        //   SizedBox(
-        //     height: 20,
-        //   ),
-        // ])
       ]),
     );
   }
