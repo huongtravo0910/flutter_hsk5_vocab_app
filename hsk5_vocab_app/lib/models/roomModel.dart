@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
-
 class RoomModel {
   int startIndex;
   int numOfCards;
+  String roomName;
 
-  RoomModel({this.numOfCards, this.startIndex});
+  RoomModel({this.numOfCards, this.startIndex, this.roomName});
   @override
   String toString() {
     // TODO: implement toString
@@ -12,6 +11,8 @@ class RoomModel {
         startIndex.toString() +
         ", " +
         "numOfCards : " +
-        numOfCards.toString();
+        numOfCards.toString() +
+        "roomName : " +
+        roomName;
   }
 }

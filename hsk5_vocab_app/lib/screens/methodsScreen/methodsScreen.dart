@@ -1,41 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:hsk5_vocab_app/models/packageModel.dart';
 import 'package:hsk5_vocab_app/screens/methodsScreen/localWidgets/customedMethodAppBar.dart';
 import 'package:hsk5_vocab_app/screens/methodsScreen/localWidgets/methodCard.dart';
 import 'package:hsk5_vocab_app/screens/methodsScreen/localWidgets/methodDropdown.dart';
+import 'package:hsk5_vocab_app/state/currentPackage.dart';
 import 'package:hsk5_vocab_app/widgets/background.dart';
+import 'package:provider/provider.dart';
 
 class MethodScreenArgs {
   final int numOfCards;
-  final int startIndex;
-  final int endIndex;
-
-  MethodScreenArgs(
-      {@required this.numOfCards,
-      @required this.startIndex,
-      @required this.endIndex});
+  MethodScreenArgs({
+    @required this.numOfCards,
+  });
 }
 
 class MethodsScreen extends StatefulWidget {
-  // final int numOfCards;
-  // final int startIndex;
-  // final int endIndex;
-  // const MethodsScreen(
-  //     {Key key, this.numOfCards, this.endIndex, this.startIndex})
-  //     : super(key: key);
   @override
   _MethodsScreenState createState() => _MethodsScreenState();
 }
 
 class _MethodsScreenState extends State<MethodsScreen> {
-  int _numOfCards;
-  int _startIndex;
-  int _endIndex;
+  PackageModel _currentPackage;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _currentPackage =
+        Provider.of<CurrentPackage>(context, listen: false).getPackageModel;
+  }
+
   @override
   Widget build(BuildContext context) {
     final MethodScreenArgs args = ModalRoute.of(context).settings.arguments;
-    int numOfRooms =
-        ((args.endIndex - args.startIndex + 1) / args.numOfCards).ceil();
-    debugPrint("number of rooms " + numOfRooms.toString());
+
     return Scaffold(
       body: Stack(children: [
         Background(
@@ -45,14 +42,14 @@ class _MethodsScreenState extends State<MethodsScreen> {
           children: [
             CustomedMethodAppBar(
               child2: Text(
-                "Goi 1",
+                _currentPackage.name,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
               child1: BackButton(),
             ),
             MethodDropdown(
-              endRoomNo: numOfRooms,
-              startIndexOfPackage: args.startIndex,
+              endRoomNo: _currentPackage.numOfRooms,
+              startIndexOfPackage: _currentPackage.startIndex,
               numOfCards: args.numOfCards,
             ), //Widget can provider
             MethodCard(

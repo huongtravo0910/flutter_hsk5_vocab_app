@@ -11,6 +11,7 @@ class PlainContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         color: Theme.of(context).primaryColor,
       ),
+      alignment: Alignment.center,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20),
         child: child,

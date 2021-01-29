@@ -35,23 +35,26 @@ class QuizInstructionScreen extends StatelessWidget {
                   ),
                   Center(
                     child: AnswerBar(
-                      isChosen: true,
+                      isChosen: false,
                       isCorrect: false,
                       choice: "Hoc sinh",
+                      isTapped: true,
                     ),
                   ),
                   Center(
                     child: AnswerBar(
-                      isChosen: true,
+                      isChosen: false,
                       isCorrect: false,
                       choice: "Truong hoc",
+                      isTapped: true,
                     ),
                   ),
                   Center(
                     child: AnswerBar(
-                      isChosen: true,
+                      isChosen: false,
                       isCorrect: false,
                       choice: "Gia dinh",
+                      isTapped: true,
                     ),
                   ),
                   Center(
@@ -59,6 +62,7 @@ class QuizInstructionScreen extends StatelessWidget {
                       isChosen: true,
                       isCorrect: true,
                       choice: "Xin chao",
+                      isTapped: true,
                     ),
                   ),
                 ],
@@ -66,12 +70,12 @@ class QuizInstructionScreen extends StatelessWidget {
               Column(
                 children: [
                   SizedBox(
-                    height: 370,
+                    height: 390,
                   ),
                   Row(
                     children: [
                       SizedBox(
-                        width: 30,
+                        width: 35,
                       ),
                       Column(
                         children: [

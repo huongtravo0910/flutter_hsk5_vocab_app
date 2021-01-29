@@ -55,11 +55,15 @@ class _RevealInstructionScreenState extends State<RevealInstructionScreen> {
                       ),
                       Container(
                         margin: EdgeInsets.all(15.0),
-                        child: TickButton(),
+                        child: TickButton(
+                          onPressed: () {},
+                        ),
                       ),
                       Container(
                         margin: EdgeInsets.all(15.0),
-                        child: MutipyButton(),
+                        child: MultipyButton(
+                          onPressed: () {},
+                        ),
                       ),
                     ],
                   ),
@@ -99,66 +103,12 @@ class _RevealInstructionScreenState extends State<RevealInstructionScreen> {
                   ),
                 ],
               ),
-              // Column(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     // SizedBox(height: 200),
-              //     Row(
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       children: [
-              //         Icon(
-              //           Icons.touch_app,
-              //           size: 50,
-              //         ),
-              //         SizedBox(
-              //           width: 20,
-              //         ),
-              //         Text(
-              //           "Bam de xem mat sau",
-              //           style: Theme.of(context).textTheme.bodyText1,
-              //         )
-              //       ],
-              //     ),
-              //     SizedBox(
-              //       height: 30,
-              //     ),
-              //     Row(
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       children: [
-              //         TickButton(),
-              //         SizedBox(
-              //           width: 20,
-              //         ),
-              //         Text(
-              //           "Chon neu ban nho tu nay",
-              //           style: Theme.of(context).textTheme.bodyText1,
-              //         )
-              //       ],
-              //     ),
-              //     SizedBox(
-              //       height: 30,
-              //     ),
-              //     Row(
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       children: [
-              //         MutipyButton(),
-              //         SizedBox(
-              //           width: 20,
-              //         ),
-              //         Text(
-              //           "Chon neu ban khong nho tu nay",
-              //           style: Theme.of(context).textTheme.bodyText1,
-              //         )
-              //       ],
-              //     ),
-              //   ],
-              // ),
               BottomButton(
                 route: RevealScreen(),
                 text: "Bat dau",
               ),
             ],
-          )
+          ),
         ],
       ),
     );

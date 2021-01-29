@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hsk5_vocab_app/widgets/plainContainer.dart';
 
-class MatchingCardWithAuText extends StatelessWidget {
+class MatchingCardWithSubText extends StatelessWidget {
   final String mainText;
-  final String auText;
+  final String subText;
   final bool isChosen;
-  const MatchingCardWithAuText(
-      {Key key, this.mainText, this.auText, this.isChosen})
+  const MatchingCardWithSubText(
+      {Key key, this.mainText, this.subText, this.isChosen})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class MatchingCardWithAuText extends StatelessWidget {
             style: Theme.of(context).textTheme.subtitle1,
           ),
           Text(
-            auText,
+            subText,
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ]),

@@ -18,14 +18,19 @@ class _MethodDropdownState extends State<MethodDropdown> {
   List<String> rooms;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<CurrentRoom>(context, listen: false).setCurrentRoom(
+        widget.startIndexOfPackage, widget.numOfCards, "Phong 1");
+  }
+
+  @override
   Widget build(BuildContext context) {
     rooms = ["Phong 1"];
     for (var i = 2; i <= widget.endRoomNo; i++) {
       String room = "Phong " + i.toString();
       rooms.add(room);
-    }
-    void _setCurrentRoom(int startIndex, int numOfCards) {
-      CurrentRoom().setCurrentRoom(startIndex, numOfCards);
     }
 
     return SizedBox(
@@ -45,19 +50,23 @@ class _MethodDropdownState extends State<MethodDropdown> {
               color: Colors.black,
             ),
             onChanged: (String newValue) {
-              // debugPrint("Room" + newValue.substring(newValue.length - 1));
-              int noOfRoom = int.parse(newValue.substring(newValue.length - 1));
-              // debugPrint((noOfRoom * widget.numOfCards).toString());
+              int noOfRoom = 0;
+              if (newValue.length < 8) {
+                noOfRoom = int.parse(newValue.substring(newValue.length - 1));
+              } else if (newValue.length == 8) {
+                noOfRoom = int.parse(newValue.substring(newValue.length - 2));
+              } else if (newValue.length == 9) {
+                noOfRoom = int.parse(newValue.substring(newValue.length - 3));
+              }
 
-              int startIndex =
-                  widget.startIndexOfPackage + noOfRoom * widget.numOfCards;
-              // debugPrint("startIndex" + startIndex.toString());
-
-              _setCurrentRoom(startIndex, widget.numOfCards);
+              int startIndex = widget.startIndexOfPackage +
+                  (noOfRoom - 1) * widget.numOfCards;
 
               setState(() {
                 dropdownValue = newValue;
               });
+              Provider.of<CurrentRoom>(context, listen: false)
+                  .setCurrentRoom(startIndex, widget.numOfCards, dropdownValue);
             },
             items: rooms.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(

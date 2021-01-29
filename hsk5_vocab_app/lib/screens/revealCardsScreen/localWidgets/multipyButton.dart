@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 
-class MutipyButton extends StatelessWidget {
+class MultipyButton extends StatelessWidget {
+  final Function onPressed;
+  const MultipyButton({Key key, this.onPressed}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
-      width: 100,
+      height: 30,
+      width: 110,
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Theme.of(context).secondaryHeaderColor,
-          width: 2,
-        ),
+        // border: Border.all(
+        //   color: Theme.of(context).primaryColor,
+        //   width: 2,
+        // ),
+        color: Theme.of(context).accentColor,
         borderRadius: BorderRadius.circular(30),
       ),
-      child: Icon(
-        Icons.clear,
-        color: Theme.of(context).secondaryHeaderColor,
-        size: 30,
+      child: FlatButton(
+        onPressed: onPressed,
+        child: Icon(
+          Icons.clear,
+          color: Theme.of(context).primaryColor,
+          size: 20,
+        ),
       ),
     );
   }

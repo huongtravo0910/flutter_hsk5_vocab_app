@@ -12,18 +12,20 @@ class MatchingCard extends StatelessWidget {
       height: 100,
       width: 170,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(20),
           border: isChosen
               ? Border.all(
                   width: 2, color: Theme.of(context).secondaryHeaderColor)
               : Border.all(width: 2, color: Theme.of(context).primaryColor)),
       child: PlainContainer(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(
-            mainText,
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-        ]),
+        child: SingleChildScrollView(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text(
+              mainText,
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+          ]),
+        ),
       ),
     );
   }

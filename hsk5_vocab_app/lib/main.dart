@@ -5,6 +5,7 @@ import 'package:hsk5_vocab_app/screens/matchingScreen/matchingScreen.dart';
 import 'package:hsk5_vocab_app/screens/methodsScreen/methodsScreen.dart';
 import 'package:hsk5_vocab_app/screens/quizScreen/quizScreen.dart';
 import 'package:hsk5_vocab_app/screens/revealCardsScreen/revealSreen.dart';
+import 'package:hsk5_vocab_app/state/currentPackage.dart';
 import 'package:hsk5_vocab_app/state/currentRoomState.dart';
 import 'package:hsk5_vocab_app/utils/ourTheme.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<CurrentRoom>(create: (_) => CurrentRoom()),
+        ChangeNotifierProvider<CurrentPackage>(create: (_) => CurrentPackage()),
       ],
       child: MaterialApp(
         initialRoute: '/',

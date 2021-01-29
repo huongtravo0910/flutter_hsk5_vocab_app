@@ -6,9 +6,10 @@ class CurrentRoom extends ChangeNotifier {
 
   RoomModel get getRoomModel => _roomModel;
 
-  void setCurrentRoom(int startIndex, int numOfCards) {
+  void setCurrentRoom(int startIndex, int numOfCards, String roomName) {
     _roomModel.startIndex = startIndex;
     _roomModel.numOfCards = numOfCards;
+    _roomModel.roomName = roomName;
     // notifyListeners();
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hsk5_vocab_app/screens/matchingScreen/localWidgets/matchingCard.dart';
-import 'package:hsk5_vocab_app/screens/matchingScreen/localWidgets/matchingCardWithAuText.dart';
+import 'package:hsk5_vocab_app/screens/matchingScreen/localWidgets/matchingCardWithSubText.dart';
 import 'package:hsk5_vocab_app/screens/matchingScreen/matchingScreen.dart';
 import 'package:hsk5_vocab_app/widgets/background.dart';
 import 'package:hsk5_vocab_app/widgets/bottomButton.dart';
@@ -46,14 +46,14 @@ class MatchingInstructionScreen extends StatelessWidget {
                       SizedBox(
                         height: 150,
                       ),
-                      MatchingCardWithAuText(
+                      MatchingCardWithSubText(
                         mainText: "Xin chao",
-                        auText: "Xi-n Cha-o",
+                        subText: "Xi-n Cha-o",
                         isChosen: true,
                       ),
-                      MatchingCardWithAuText(
+                      MatchingCardWithSubText(
                         mainText: "Hoc sinh",
-                        auText: "Ho-c si-nh",
+                        subText: "Ho-c si-nh",
                         isChosen: false,
                       ),
                     ],

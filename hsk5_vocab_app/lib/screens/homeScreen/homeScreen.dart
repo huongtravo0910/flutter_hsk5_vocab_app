@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hsk5_vocab_app/screens/homeScreen/localWigets/homeCard.dart';
 import 'package:hsk5_vocab_app/screens/methodsScreen/methodsScreen.dart';
+import 'package:hsk5_vocab_app/state/currentPackage.dart';
 import 'package:hsk5_vocab_app/widgets/background.dart';
 import 'package:hsk5_vocab_app/widgets/shadowButton.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,12 +12,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _startIndex = 0;
-  int _endIndex = 0;
+  int _startIndexOfPackage = 0;
+  int _endIndexOfPackage = 0;
   int _numOfCards = 0;
+  int _numOfRooms = 0;
+  String _packageName = "";
 
   List<bool> _isFirstColumnChosen = [false, false, false, false, false, false];
   List<bool> _isSecondColumnChosen = [false, false, false, false, false, false];
+
+  void _setCurrentPackage(int startIndex, int endIndex, String packageName) {
+    _numOfRooms = ((endIndex - startIndex + 1) / _numOfCards).ceil();
+    Provider.of<CurrentPackage>(context, listen: false)
+        .setCurrentPackage(startIndex, endIndex, packageName, _numOfRooms);
+  }
 
   void _setIndex(int startIndex, int endIndex, int chosenPos) {
     if (_numOfCards == 1300) {
@@ -24,8 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
       });
 
       setState(() {
-        _startIndex = 0;
-        _endIndex = 1299;
+        _startIndexOfPackage = 0;
+        _endIndexOfPackage = 1299;
       });
     } else {
       switch (chosenPos) {
@@ -33,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
           {
             setState(() {
               _isFirstColumnChosen = [true, false, false, false, false, false];
+              _packageName = "Goi 1";
             });
           }
           break;
@@ -40,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
           {
             setState(() {
               _isFirstColumnChosen = [false, true, false, false, false, false];
+              _packageName = "Goi 2";
             });
           }
           break;
@@ -47,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
           {
             setState(() {
               _isFirstColumnChosen = [false, false, true, false, false, false];
+              _packageName = "Goi 3";
             });
           }
           break;
@@ -54,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
           {
             setState(() {
               _isFirstColumnChosen = [false, false, false, true, false, false];
+              _packageName = "Goi 4";
             });
           }
           break;
@@ -61,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
           {
             setState(() {
               _isFirstColumnChosen = [false, false, false, false, true, false];
+              _packageName = "Goi 5";
             });
           }
           break;
@@ -68,13 +83,14 @@ class _HomeScreenState extends State<HomeScreen> {
           {
             setState(() {
               _isFirstColumnChosen = [false, false, false, false, false, true];
+              _packageName = "Goi 6";
             });
           }
           break;
       }
       setState(() {
-        _startIndex = startIndex;
-        _endIndex = endIndex;
+        _startIndexOfPackage = startIndex;
+        _endIndexOfPackage = endIndex;
       });
     }
   }
@@ -171,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     HomeCard(
                       title: "1300 tu",
-                      subtitle: "Goi 5",
+                      subtitle: "Goi 6",
                       isChosen: _isFirstColumnChosen[5],
                       onPressed: () => _setIndex(0, 1299, 6),
                     ),
@@ -228,8 +244,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   ShadowButton(
                     onPressed: () {
-                      debugPrint("endIndex" + _endIndex.toString());
-                      if (_endIndex == 0 || _numOfCards == 0) {
+                      _setCurrentPackage(_startIndexOfPackage,
+                          _endIndexOfPackage, _packageName);
+
+                      if (_endIndexOfPackage == 0 || _numOfCards == 0) {
                         Scaffold.of(context).showSnackBar(
                           SnackBar(
                             content:
@@ -240,9 +258,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       } else {
                         Navigator.of(context).pushNamed("/method",
                             arguments: MethodScreenArgs(
-                                endIndex: _endIndex,
-                                startIndex: _startIndex,
-                                numOfCards: _numOfCards));
+                              numOfCards: _numOfCards,
+                            ));
                       }
                     },
                     child: Text(
