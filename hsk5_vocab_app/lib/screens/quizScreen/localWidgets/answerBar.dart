@@ -17,8 +17,9 @@ class AnswerBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 45,
+      // height: 45,
       width: 300,
+      padding: EdgeInsets.all(0.0),
       margin: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
@@ -51,9 +52,11 @@ class AnswerBar extends StatelessWidget {
             SizedBox(
               width: 5,
             ),
-            Text(
-              choice,
-              style: Theme.of(context).textTheme.headline6,
+            Flexible(
+              child: Text(
+                choice,
+                style: Theme.of(context).textTheme.headline6,
+              ),
             )
           ],
         ),

@@ -162,9 +162,7 @@ class _RevealScreenState extends State<RevealScreen> {
             ],
           ),
           onPressed: () {
-            (_currentWordNoInData < _currentPackage.endIndex)
-                ? _goToNextRoom()
-                : _backToHome();
+            (_currentWordNoInData < 1299) ? _goToNextRoom() : _backToHome();
           },
         );
       },
@@ -189,7 +187,7 @@ class _RevealScreenState extends State<RevealScreen> {
     } else if (_roomName.length == 9) {
       noOfRoom = int.parse(_roomName.substring(_roomName.length - 3));
     }
-
+    debugPrint("noOfRoom" + noOfRoom.toString());
     if (noOfRoom < _currentPackage.numOfRooms) {
       setState(() {
         _roomName = "Phong " + (noOfRoom + 1).toString();
@@ -257,12 +255,13 @@ class _RevealScreenState extends State<RevealScreen> {
         }
         break;
     }
-
-    _isTouched = false;
-    _wordNoInRoom = 1;
-    _numOfRememberedWords = 0;
-    _numOfForgotWords = 0;
-    _isFreezed = false;
+    setState(() {
+      _isTouched = false;
+      _wordNoInRoom = 1;
+      _numOfRememberedWords = 0;
+      _numOfForgotWords = 0;
+      _isFreezed = false;
+    });
   }
 
   @override

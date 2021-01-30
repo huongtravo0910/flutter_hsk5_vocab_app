@@ -30,6 +30,14 @@ class _MethodsScreenState extends State<MethodsScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    _currentPackage =
+        Provider.of<CurrentPackage>(context, listen: false).getPackageModel;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final MethodScreenArgs args = ModalRoute.of(context).settings.arguments;
 

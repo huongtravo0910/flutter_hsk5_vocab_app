@@ -49,9 +49,20 @@ class OurTheme {
             //16
             color: Colors.black,
           ),
-          headline4: TextStyle(
-            //20
+          headline5: TextStyle(
+            //16
+            color: _brownDark,
             fontSize: 20,
+          ),
+          headline4: TextStyle(
+            //24
+            fontSize: 24,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+          headline3: TextStyle(
+            //24
+            fontSize: 32,
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),

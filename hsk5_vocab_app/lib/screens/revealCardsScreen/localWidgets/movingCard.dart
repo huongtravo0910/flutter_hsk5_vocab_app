@@ -52,7 +52,7 @@ class _MovingCardWidgetState extends State<MovingCardWidget>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(widget.urlFront,
-                            style: Theme.of(context).textTheme.headline),
+                            style: Theme.of(context).textTheme.headline4),
                       ],
                     ),
                   ),
@@ -87,7 +87,7 @@ class _MovingCardWidgetState extends State<MovingCardWidget>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(widget.urlBack,
-                            style: Theme.of(context).textTheme.body1),
+                            style: Theme.of(context).textTheme.headline5),
                       ],
                     ),
                   ),

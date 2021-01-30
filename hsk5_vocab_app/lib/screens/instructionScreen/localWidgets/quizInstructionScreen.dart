@@ -22,12 +22,12 @@ class QuizInstructionScreen extends StatelessWidget {
               Column(
                 children: [
                   SizedBox(
-                    height: 130,
+                    height: 100,
                   ),
                   Center(
                     child: Text(
                       "学生",
-                      style: Theme.of(context).textTheme.subtitle1,
+                      style: Theme.of(context).textTheme.headline3,
                     ),
                   ),
                   SizedBox(
@@ -70,7 +70,7 @@ class QuizInstructionScreen extends StatelessWidget {
               Column(
                 children: [
                   SizedBox(
-                    height: 390,
+                    height: 400,
                   ),
                   Row(
                     children: [

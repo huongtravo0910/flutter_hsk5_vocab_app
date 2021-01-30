@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hsk5_vocab_app/models/packageModel.dart';
+import 'package:hsk5_vocab_app/models/roomModel.dart';
+import 'package:hsk5_vocab_app/state/currentPackage.dart';
 import 'package:hsk5_vocab_app/state/currentRoomState.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +18,7 @@ class MethodDropdown extends StatefulWidget {
 
 class _MethodDropdownState extends State<MethodDropdown> {
   String dropdownValue = "Phong 1";
+  RoomModel _currentRoom;
   List<String> rooms;
 
   @override
@@ -23,6 +27,17 @@ class _MethodDropdownState extends State<MethodDropdown> {
     super.initState();
     Provider.of<CurrentRoom>(context, listen: false).setCurrentRoom(
         widget.startIndexOfPackage, widget.numOfCards, "Phong 1");
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    _currentRoom =
+        Provider.of<CurrentRoom>(context, listen: false).getRoomModel;
+    setState(() {
+      dropdownValue = _currentRoom.roomName;
+    });
   }
 
   @override
@@ -40,7 +55,7 @@ class _MethodDropdownState extends State<MethodDropdown> {
         decoration: BoxDecoration(shape: BoxShape.circle),
         child: Consumer<CurrentRoom>(builder: (context, mymodel, child) {
           return DropdownButton<String>(
-            value: dropdownValue,
+            value: _currentRoom.roomName,
             icon: Icon(Icons.arrow_downward),
             iconSize: 20,
             elevation: 0,

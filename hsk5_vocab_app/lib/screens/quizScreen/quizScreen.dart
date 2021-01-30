@@ -37,12 +37,85 @@ class _QuizScreenState extends State<QuizScreen> {
   int _secondRandomWordIndex;
   int _thirdRandomWordIndex;
   int _answersCorrect;
+  String _roomName = "";
+  String _pakageName = "";
   List<bool> isAnswerChosen = [false, false, false, false];
   List<WordModel> choices = [];
   List<WordModel> shuffledChoices = [];
 
   bool _isTouched;
   bool _isFreezed;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _fetchData(context));
+    _wordNoInRoom = 1;
+    _isTouched = false;
+    _answersCorrect = 0;
+    _isFreezed = false;
+  }
+
+  void _fetchData(BuildContext context) async {
+    var jsonData = await DefaultAssetBundle.of(context)
+        .loadString("assets/completeHsk5Vocab.json");
+    _data = json.decode(jsonData);
+
+    _currentRoom =
+        Provider.of<CurrentRoom>(context, listen: false).getRoomModel;
+    _currentPackage =
+        Provider.of<CurrentPackage>(context, listen: false).getPackageModel;
+    _currentWordNoInData = _currentRoom.startIndex;
+
+    setState(() {
+      _roomName = _currentRoom.roomName;
+      _pakageName = _currentPackage.name;
+      (_currentPackage.endIndex >
+              (_currentRoom.startIndex + _currentRoom.numOfCards))
+          ? _numOfCards = _currentRoom.numOfCards
+          : _numOfCards =
+              _currentPackage.endIndex - _currentRoom.startIndex + 1;
+      _firstRandomWordIndex = min + _random.nextInt(max - min);
+      if (10 <= _firstRandomWordIndex && _firstRandomWordIndex <= 1289) {
+        _secondRandomWordIndex = _firstRandomWordIndex + 10;
+        _thirdRandomWordIndex = _firstRandomWordIndex - 10;
+      } else if (_firstRandomWordIndex < 10) {
+        _secondRandomWordIndex = _firstRandomWordIndex + 10;
+        _thirdRandomWordIndex = _firstRandomWordIndex + 20;
+      } else if (_firstRandomWordIndex > 1289) {
+        _secondRandomWordIndex = _firstRandomWordIndex - 10;
+        _thirdRandomWordIndex = _firstRandomWordIndex - 20;
+      }
+      _currentWord = WordModel(
+        stt: _data[_currentWordNoInData]["no"],
+        definition: _data[_currentWordNoInData]["definition"],
+        pronounciation: _data[_currentWordNoInData]["pronunciation"],
+        word: _data[_currentWordNoInData]["word"],
+      );
+
+      choices.add(WordModel(
+        stt: _data[_firstRandomWordIndex]["no"],
+        definition: _data[_firstRandomWordIndex]["definition"],
+        pronounciation: _data[_firstRandomWordIndex]["pronunciation"],
+        word: _data[_firstRandomWordIndex]["word"],
+      ));
+      choices.add(WordModel(
+        stt: _data[_secondRandomWordIndex]["no"],
+        definition: _data[_secondRandomWordIndex]["definition"],
+        pronounciation: _data[_secondRandomWordIndex]["pronunciation"],
+        word: _data[_secondRandomWordIndex]["word"],
+      ));
+      choices.add(WordModel(
+        stt: _data[_thirdRandomWordIndex]["no"],
+        definition: _data[_thirdRandomWordIndex]["definition"],
+        pronounciation: _data[_thirdRandomWordIndex]["pronunciation"],
+        word: _data[_thirdRandomWordIndex]["word"],
+      ));
+      choices.add(_currentWord);
+      shuffle(choices);
+    });
+  }
 
   List shuffle(List items) {
     var random = new Random();
@@ -142,20 +215,89 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void _goToNextRoom() {
-    setState(() {
-      isAnswerChosen = [false, false, false, false];
-      _isFreezed = false;
-      _isTouched = false;
-      _wordNoInRoom = 1;
-      _currentWordNoInData += 1;
-      _answersCorrect = 0;
-      choices = [];
-    });
-    (_currentPackage.endIndex >
-            (_currentRoom.startIndex + _currentRoom.numOfCards))
-        ? _numOfCards = _currentRoom.numOfCards
-        : _numOfCards = _currentPackage.endIndex - _currentRoom.startIndex + 1;
+    Navigator.of(context).pop();
+    int noOfRoom = 0;
+    int noOfPackage = 0;
+    noOfPackage = int.parse(
+        _currentPackage.name.substring(_currentPackage.name.length - 1));
+    if (_roomName.length == 7) {
+      noOfRoom = int.parse(_roomName.substring(_roomName.length - 1));
+    } else if (_roomName.length == 8) {
+      noOfRoom = int.parse(_roomName.substring(_roomName.length - 2));
+    } else if (_roomName.length == 9) {
+      noOfRoom = int.parse(_roomName.substring(_roomName.length - 3));
+    }
+    debugPrint("noOfRoom" + noOfRoom.toString());
+    if (noOfRoom < _currentPackage.numOfRooms) {
+      setState(() {
+        _roomName = "Phong " + (noOfRoom + 1).toString();
+      });
+    } else {
+      _pakageName = "Goi " + (noOfPackage + 1).toString();
+      _roomName = "Phong 1";
+    }
 
+    debugPrint("roomName" + _roomName);
+    debugPrint("packageName" + _pakageName);
+
+    setState(() {
+      choices = [];
+      _currentWord = WordModel(
+        stt: _data[_currentWordNoInData]["no"],
+        definition: _data[_currentWordNoInData]["definition"],
+        pronounciation: _data[_currentWordNoInData]["pronunciation"],
+        word: _data[_currentWordNoInData]["word"],
+      );
+      (_currentPackage.endIndex >
+              (_currentRoom.startIndex + _currentRoom.numOfCards))
+          ? _numOfCards = _currentRoom.numOfCards
+          : _numOfCards =
+              _currentPackage.endIndex - _currentRoom.startIndex + 1;
+    });
+
+    Provider.of<CurrentRoom>(context, listen: false)
+        .setCurrentRoom(_currentWordNoInData, _numOfCards, _roomName);
+    switch (_pakageName) {
+      case "Goi 1":
+        {
+          Provider.of<CurrentPackage>(context, listen: false).setCurrentPackage(
+              0, 249, _pakageName, ((249 - 0 + 1) / _numOfCards).ceil());
+        }
+        break;
+      case "Goi 2":
+        {
+          Provider.of<CurrentPackage>(context, listen: false).setCurrentPackage(
+              250, 499, _pakageName, ((499 - 250 + 1) / _numOfCards).ceil());
+        }
+        break;
+      case "Goi 3":
+        {
+          Provider.of<CurrentPackage>(context, listen: false).setCurrentPackage(
+              500, 749, _pakageName, ((749 - 500 + 1) / _numOfCards).ceil());
+        }
+        break;
+      case "Goi 4":
+        {
+          Provider.of<CurrentPackage>(context, listen: false).setCurrentPackage(
+              750, 999, _pakageName, ((999 - 750 + 1) / _numOfCards).ceil());
+        }
+        break;
+      case "Goi 5":
+        {
+          Provider.of<CurrentPackage>(context, listen: false).setCurrentPackage(
+              1000,
+              1299,
+              _pakageName,
+              ((1299 - 1000 + 1) / _numOfCards).ceil());
+        }
+        break;
+      case "Goi 6":
+        {
+          Provider.of<CurrentPackage>(context, listen: false).setCurrentPackage(
+              0, 1299, _pakageName, ((1299 - 0 + 1) / _numOfCards).ceil());
+        }
+        break;
+    }
     _firstRandomWordIndex = min + _random.nextInt(max - min);
     if (10 <= _firstRandomWordIndex && _firstRandomWordIndex <= 1289) {
       _secondRandomWordIndex = _firstRandomWordIndex + 10;
@@ -195,7 +337,15 @@ class _QuizScreenState extends State<QuizScreen> {
     ));
 
     shuffle(choices);
-    Navigator.of(context).pop();
+
+    setState(() {
+      isAnswerChosen = [false, false, false, false];
+      _isFreezed = false;
+      _isTouched = false;
+      _wordNoInRoom = 1;
+      _currentWordNoInData += 1;
+      _answersCorrect = 0;
+    });
   }
 
   void _goNext() {
@@ -253,75 +403,6 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _fetchData(context));
-    _wordNoInRoom = 1;
-    _isTouched = false;
-    _answersCorrect = 0;
-    _isFreezed = false;
-  }
-
-  void _fetchData(BuildContext context) async {
-    var jsonData = await DefaultAssetBundle.of(context)
-        .loadString("assets/completeHsk5Vocab.json");
-    _data = json.decode(jsonData);
-
-    _currentRoom =
-        Provider.of<CurrentRoom>(context, listen: false).getRoomModel;
-    _currentPackage =
-        Provider.of<CurrentPackage>(context, listen: false).getPackageModel;
-    _currentWordNoInData = _currentRoom.startIndex;
-
-    setState(() {
-      (_currentPackage.endIndex >
-              (_currentRoom.startIndex + _currentRoom.numOfCards))
-          ? _numOfCards = _currentRoom.numOfCards
-          : _numOfCards =
-              _currentPackage.endIndex - _currentRoom.startIndex + 1;
-      _firstRandomWordIndex = min + _random.nextInt(max - min);
-      if (10 <= _firstRandomWordIndex && _firstRandomWordIndex <= 1289) {
-        _secondRandomWordIndex = _firstRandomWordIndex + 10;
-        _thirdRandomWordIndex = _firstRandomWordIndex - 10;
-      } else if (_firstRandomWordIndex < 10) {
-        _secondRandomWordIndex = _firstRandomWordIndex + 10;
-        _thirdRandomWordIndex = _firstRandomWordIndex + 20;
-      } else if (_firstRandomWordIndex > 1289) {
-        _secondRandomWordIndex = _firstRandomWordIndex - 10;
-        _thirdRandomWordIndex = _firstRandomWordIndex - 20;
-      }
-      _currentWord = WordModel(
-        stt: _data[_currentWordNoInData]["no"],
-        definition: _data[_currentWordNoInData]["definition"],
-        pronounciation: _data[_currentWordNoInData]["pronunciation"],
-        word: _data[_currentWordNoInData]["word"],
-      );
-
-      choices.add(WordModel(
-        stt: _data[_firstRandomWordIndex]["no"],
-        definition: _data[_firstRandomWordIndex]["definition"],
-        pronounciation: _data[_firstRandomWordIndex]["pronunciation"],
-        word: _data[_firstRandomWordIndex]["word"],
-      ));
-      choices.add(WordModel(
-        stt: _data[_secondRandomWordIndex]["no"],
-        definition: _data[_secondRandomWordIndex]["definition"],
-        pronounciation: _data[_secondRandomWordIndex]["pronunciation"],
-        word: _data[_secondRandomWordIndex]["word"],
-      ));
-      choices.add(WordModel(
-        stt: _data[_thirdRandomWordIndex]["no"],
-        definition: _data[_thirdRandomWordIndex]["definition"],
-        pronounciation: _data[_thirdRandomWordIndex]["pronunciation"],
-        word: _data[_thirdRandomWordIndex]["word"],
-      ));
-      choices.add(_currentWord);
-      shuffle(choices);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -341,12 +422,12 @@ class _QuizScreenState extends State<QuizScreen> {
                 Column(
                   children: [
                     SizedBox(
-                      height: 130,
+                      height: 100,
                     ),
                     Center(
                       child: Text(
                         _currentWord.getWord,
-                        style: Theme.of(context).textTheme.subtitle1,
+                        style: Theme.of(context).textTheme.headline3,
                       ),
                     ),
                     SizedBox(
@@ -407,8 +488,10 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
               _isTouched && (_wordNoInRoom < _numOfCards)
                   ? Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
+                        SizedBox(
+                          height: 480,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -433,8 +516,10 @@ class _QuizScreenState extends State<QuizScreen> {
                     height: 550,
                   ),
                   BottomBar(
-                    roomName: _currentRoom.roomName,
-                    packageName: _currentPackage.name,
+                    roomName:
+                        (_currentRoom != null) ? _currentRoom.roomName : "",
+                    packageName:
+                        (_currentPackage != null) ? _currentPackage.name : "",
                   ),
                 ],
               ),
