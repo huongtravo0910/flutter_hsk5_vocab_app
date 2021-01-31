@@ -286,9 +286,27 @@ class _RevealScreenState extends State<RevealScreen> {
                     SizedBox(
                       height: 100,
                     ),
-                    MovingCardWidget(
-                      urlFront: _currentWord.getWord,
-                      urlBack: "/" + _currentWord.getPronounciation + "/",
+                    GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onLongPress: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("Hello"),
+                                actions: [
+                                  ElevatedButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                      child: Text("Back"))
+                                ],
+                              );
+                            });
+                      },
+                      child: MovingCardWidget(
+                        urlFront: _currentWord.getWord,
+                        urlBack: "/" + _currentWord.getPronounciation + "/",
+                      ),
                     ),
                     SizedBox(
                       height: 5,

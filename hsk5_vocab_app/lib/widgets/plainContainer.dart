@@ -6,6 +6,7 @@ class PlainContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      constraints: BoxConstraints(minHeight: 110),
       padding: EdgeInsets.all(0.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),

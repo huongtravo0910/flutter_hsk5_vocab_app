@@ -5,7 +5,6 @@ import 'package:hsk5_vocab_app/screens/matchingScreen/matchingScreen.dart';
 import 'package:hsk5_vocab_app/screens/methodsScreen/methodsScreen.dart';
 import 'package:hsk5_vocab_app/screens/quizScreen/quizScreen.dart';
 import 'package:hsk5_vocab_app/screens/revealCardsScreen/revealSreen.dart';
-import 'package:hsk5_vocab_app/screens/testScreen2.dart';
 import 'package:hsk5_vocab_app/state/currentPackage.dart';
 import 'package:hsk5_vocab_app/state/currentRoomState.dart';
 import 'package:hsk5_vocab_app/utils/ourTheme.dart';

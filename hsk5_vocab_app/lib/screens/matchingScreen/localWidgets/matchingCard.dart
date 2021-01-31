@@ -9,7 +9,6 @@ class MatchingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5.0),
-      height: 120,
       width: 170,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -18,19 +17,10 @@ class MatchingCard extends StatelessWidget {
                   width: 2, color: Theme.of(context).secondaryHeaderColor)
               : Border.all(width: 2, color: Theme.of(context).primaryColor)),
       child: PlainContainer(
-        child: SingleChildScrollView(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              mainText,
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-          ]),
+        child: Text(
+          mainText,
+          style: Theme.of(context).textTheme.subtitle1,
+          textAlign: TextAlign.center,
         ),
       ),
     );
