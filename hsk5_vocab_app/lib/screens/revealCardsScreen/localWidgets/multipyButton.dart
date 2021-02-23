@@ -2,17 +2,23 @@ import 'package:flutter/material.dart';
 
 class MultipyButton extends StatelessWidget {
   final Function onPressed;
-  const MultipyButton({Key key, this.onPressed}) : super(key: key);
+  final int isRemembered;
+  const MultipyButton({Key key, this.onPressed, this.isRemembered})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 30,
+      height: 40,
       width: 110,
       decoration: BoxDecoration(
-        // border: Border.all(
-        //   color: Theme.of(context).primaryColor,
-        //   width: 2,
-        // ),
+        border: (isRemembered == 0)
+            ? Border.all(
+                width: 2,
+              )
+            : Border.all(
+                width: 2,
+                color: Theme.of(context).accentColor,
+              ),
         color: Theme.of(context).accentColor,
         borderRadius: BorderRadius.circular(30),
       ),

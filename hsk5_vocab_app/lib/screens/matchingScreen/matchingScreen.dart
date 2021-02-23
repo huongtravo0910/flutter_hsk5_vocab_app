@@ -2,14 +2,17 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:hsk5_vocab_app/models/choiceModel.dart';
+import 'package:hsk5_vocab_app/screens/matchingScreen/localModels/choiceModel.dart';
 import 'package:hsk5_vocab_app/models/packageModel.dart';
 import 'package:hsk5_vocab_app/models/roomModel.dart';
+import 'package:hsk5_vocab_app/models/wordModel.dart';
 import 'package:hsk5_vocab_app/screens/matchingScreen/localWidgets/matchingCard.dart';
+import 'package:hsk5_vocab_app/services/wordService.dart';
 import 'package:hsk5_vocab_app/state/currentPackage.dart';
 import 'package:hsk5_vocab_app/state/currentRoomState.dart';
 import 'package:hsk5_vocab_app/widgets/background.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MatchingScreen extends StatefulWidget {
   @override
@@ -17,9 +20,11 @@ class MatchingScreen extends StatefulWidget {
 }
 
 class _MatchingScreenState extends State<MatchingScreen> {
+  bool _isWordToDefinition;
   int score;
-  dynamic _data;
+  List<WordModel> _data;
   List<ChoiceModel> choices = [];
+  List<ChoiceModel> choices2 = [];
   int seed = 0;
   int _actualNumOfCards;
   bool gameOver;
@@ -27,20 +32,28 @@ class _MatchingScreenState extends State<MatchingScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _fetchData(context));
     gameOver = false;
+    WidgetsBinding.instance.addPostFrameCallback((_) => _fetchData(context));
     score = 0;
   }
 
   void _fetchData(BuildContext context) async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    _isWordToDefinition = _prefs.getBool("isWordToDefinitionState");
     try {
-      var jsonData = await DefaultAssetBundle.of(context)
-          .loadString("assets/completeHsk5Vocab.json");
-      _data = json.decode(jsonData);
       RoomModel _currentRoom =
           Provider.of<CurrentRoom>(context, listen: false).getRoomModel;
       PackageModel _currentPackage =
           Provider.of<CurrentPackage>(context, listen: false).getPackageModel;
+      if (_currentPackage.name == "forgot") {
+        _data = await WordService().forgotWords();
+      } else if (_currentPackage.name == "marked") {
+        _data = await WordService().markedWords();
+      } else if (_currentPackage.name == "unstudied") {
+        _data = await WordService().unstudiedWords();
+      } else {
+        _data = await WordService().words();
+      }
 
       (_currentPackage.endIndex >
               (_currentRoom.startIndex + _currentRoom.numOfCards))
@@ -49,7 +62,7 @@ class _MatchingScreenState extends State<MatchingScreen> {
             })
           : setState(() {
               _actualNumOfCards =
-                  _currentPackage.endIndex - _currentRoom.startIndex + 1;
+                  _currentPackage.endIndex - _currentRoom.startIndex;
             });
       setState(() {
         for (var i = _currentRoom.startIndex;
@@ -57,11 +70,16 @@ class _MatchingScreenState extends State<MatchingScreen> {
             i++) {
           try {
             choices.add(ChoiceModel(
-                word: _data[i]["word"], definition: _data[i]["definition"]));
+                word: _data[i].getWord, definition: _data[i].getDefinition));
+
+            choices2.add(ChoiceModel(
+                word: _data[i].getWord, definition: _data[i].getDefinition));
           } catch (e) {
             debugPrint(e.toString());
           }
         }
+        choices.shuffle(Random(seed));
+        choices2.shuffle(Random(seed + 1));
       });
     } catch (e) {
       debugPrint(e.toString());
@@ -70,18 +88,10 @@ class _MatchingScreenState extends State<MatchingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    (choices.length == 0) ? gameOver = true : gameOver = false;
     return Scaffold(
       appBar: AppBar(
         title: Text("Score : $score/${_actualNumOfCards.toString()}"),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            score = 0;
-            seed++;
-          });
-        },
-        child: Icon(Icons.refresh),
       ),
       body: Stack(
         children: [
@@ -100,33 +110,36 @@ class _MatchingScreenState extends State<MatchingScreen> {
                         return Draggable<ChoiceModel>(
                             data: choice,
                             child: MatchingCard(
-                              mainText: choice.word,
+                              mainText: _isWordToDefinition
+                                  ? choice.word
+                                  : choice.definition,
                               isChosen: false,
                             ),
                             feedback: MatchingCard(
-                              mainText: choice.word,
+                              mainText: _isWordToDefinition
+                                  ? choice.word
+                                  : choice.definition,
                               isChosen: false,
                             ),
                             childWhenDragging: MatchingCard(
-                              mainText: choice.word,
+                              mainText: _isWordToDefinition
+                                  ? choice.word
+                                  : choice.definition,
                               isChosen: false,
                             ));
-                      }).toList()
-                        ..shuffle(Random(seed + 1))),
+                      }).toList()),
                 ),
                 SingleChildScrollView(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: choices
-                        .map((choice) => _buildDragTarget(choice))
-                        .toList()
-                          ..shuffle(Random(seed)),
-                  ),
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: choices2
+                          .map((choice) => _buildDragTarget(choice))
+                          .toList()),
                 ),
               ],
             ),
-          if (gameOver) Text("Game Over"),
+          if (gameOver) Text("Chuc mung ban da hoan thanh tro choi."),
         ],
       ),
     );
@@ -137,7 +150,7 @@ class _MatchingScreenState extends State<MatchingScreen> {
       builder:
           (BuildContext context, List<ChoiceModel> incoming, List rejected) {
         return MatchingCard(
-          mainText: choice.definition,
+          mainText: _isWordToDefinition ? choice.definition : choice.word,
           isChosen: choice.accepting,
         );
       },
@@ -151,6 +164,7 @@ class _MatchingScreenState extends State<MatchingScreen> {
         if (choice.definition == receivedItem.definition) {
           setState(() {
             choices.remove(receivedItem);
+            choices2.remove(choice);
             score += 1;
             choice.accepting = false;
           });

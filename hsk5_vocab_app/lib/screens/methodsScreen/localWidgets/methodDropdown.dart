@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hsk5_vocab_app/models/packageModel.dart';
 import 'package:hsk5_vocab_app/models/roomModel.dart';
-import 'package:hsk5_vocab_app/state/currentPackage.dart';
 import 'package:hsk5_vocab_app/state/currentRoomState.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +15,7 @@ class MethodDropdown extends StatefulWidget {
 }
 
 class _MethodDropdownState extends State<MethodDropdown> {
-  String dropdownValue = "Phong 1";
+  String dropdownValue = "Phòng 1";
   RoomModel _currentRoom;
   List<String> rooms;
 
@@ -26,7 +24,7 @@ class _MethodDropdownState extends State<MethodDropdown> {
     // TODO: implement initState
     super.initState();
     Provider.of<CurrentRoom>(context, listen: false).setCurrentRoom(
-        widget.startIndexOfPackage, widget.numOfCards, "Phong 1");
+        widget.startIndexOfPackage, widget.numOfCards, "Phòng 1");
   }
 
   @override
@@ -42,9 +40,9 @@ class _MethodDropdownState extends State<MethodDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    rooms = ["Phong 1"];
+    rooms = ["Phòng 1"];
     for (var i = 2; i <= widget.endRoomNo; i++) {
-      String room = "Phong " + i.toString();
+      String room = "Phòng " + i.toString();
       rooms.add(room);
     }
 

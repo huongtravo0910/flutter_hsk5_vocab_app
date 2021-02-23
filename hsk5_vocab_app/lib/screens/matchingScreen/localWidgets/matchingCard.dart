@@ -11,7 +11,7 @@ class MatchingCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 5.0),
       width: 170,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(12),
           border: isChosen
               ? Border.all(
                   width: 2, color: Theme.of(context).secondaryHeaderColor)

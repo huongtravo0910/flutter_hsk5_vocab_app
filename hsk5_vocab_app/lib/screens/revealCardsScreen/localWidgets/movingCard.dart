@@ -35,6 +35,8 @@ class _MovingCardWidgetState extends State<MovingCardWidget>
   }
 
   _renderFrontWidget(context) {
+    double _deviceHeight = MediaQuery.of(context).size.height;
+    double _deviceWidth = MediaQuery.of(context).size.width;
     return Center(
       child: Container(
         width: 250,
@@ -46,14 +48,19 @@ class _MovingCardWidgetState extends State<MovingCardWidget>
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Expanded(
-                  flex: 4,
-                  child: PlainContainer(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(widget.urlFront,
-                            style: Theme.of(context).textTheme.headline4),
-                      ],
+                  flex: 3,
+                  child: SingleChildScrollView(
+                    child: PlainContainer(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            widget.urlFront,
+                            style: Theme.of(context).textTheme.headline4,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

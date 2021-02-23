@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hsk5_vocab_app/widgets/shadowContainerButton.dart';
 
-class HomeCard extends StatelessWidget {
+class CompleteVocabCard extends StatelessWidget {
   final String subtitle;
   final String title;
   final Function onPressed;
   final bool isChosen;
-  const HomeCard(
+  const CompleteVocabCard(
       {Key key,
       this.subtitle,
       @required this.title,

@@ -2,31 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:hsk5_vocab_app/screens/quizScreen/localWidgets/answerBar.dart';
 import 'package:hsk5_vocab_app/screens/quizScreen/quizScreen.dart';
 import 'package:hsk5_vocab_app/widgets/background.dart';
-import 'package:hsk5_vocab_app/widgets/bottomButton.dart';
+import 'package:hsk5_vocab_app/widgets/bottomButtonStart.dart';
 import 'package:hsk5_vocab_app/widgets/customedAppBar.dart';
+import 'package:hsk5_vocab_app/widgets/drawer.dart';
 
 class QuizInstructionScreen extends StatelessWidget {
+  GlobalKey<ScaffoldState> _key = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
+    double _deviceHeight = MediaQuery.of(context).size.height;
+    double _deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      key: _key,
+      drawer: CustomedDrawer(),
       body: Stack(
         children: [
           Background(
             imageURL: "assets/images/bg2.png",
           ),
+          CustomedAppBar(
+            child: BackButton(),
+            globalKey: _key,
+          ),
           Stack(
             children: [
-              CustomedAppBar(
-                child: BackButton(),
-              ),
               Column(
                 children: [
-                  SizedBox(
-                    height: 100,
-                  ),
+                  Spacer(),
                   Center(
                     child: Text(
-                      "学生",
+                      "你好",
                       style: Theme.of(context).textTheme.headline3,
                     ),
                   ),
@@ -37,7 +43,7 @@ class QuizInstructionScreen extends StatelessWidget {
                     child: AnswerBar(
                       isChosen: false,
                       isCorrect: false,
-                      choice: "Hoc sinh",
+                      choice: "học sinh",
                       isTapped: true,
                     ),
                   ),
@@ -45,7 +51,7 @@ class QuizInstructionScreen extends StatelessWidget {
                     child: AnswerBar(
                       isChosen: false,
                       isCorrect: false,
-                      choice: "Truong hoc",
+                      choice: "cố gắng",
                       isTapped: true,
                     ),
                   ),
@@ -53,7 +59,7 @@ class QuizInstructionScreen extends StatelessWidget {
                     child: AnswerBar(
                       isChosen: false,
                       isCorrect: false,
-                      choice: "Gia dinh",
+                      choice: "hạnh phúc",
                       isTapped: true,
                     ),
                   ),
@@ -61,16 +67,21 @@ class QuizInstructionScreen extends StatelessWidget {
                     child: AnswerBar(
                       isChosen: true,
                       isCorrect: true,
-                      choice: "Xin chao",
+                      choice: "xin chào",
                       isTapped: true,
                     ),
                   ),
+                  SizedBox(
+                    height: _deviceHeight / 8,
+                  ),
+                  Spacer()
                 ],
               ),
               Column(
                 children: [
+                  Spacer(),
                   SizedBox(
-                    height: 400,
+                    height: _deviceHeight / 3,
                   ),
                   Row(
                     children: [
@@ -98,18 +109,19 @@ class QuizInstructionScreen extends StatelessWidget {
                             height: 30,
                           ),
                           Text(
-                            "Bam chon cau tra loi ",
+                            "Bấm chọn câu trả lời ",
                             style: Theme.of(context).textTheme.bodyText2,
                           ),
                         ],
                       ),
                     ],
-                  )
+                  ),
+                  Spacer(),
                 ],
               ),
               BottomButton(
-                route: QuizScreen(),
-                text: "Bat dau",
+                route: "/quiz",
+                text: "Bắt đầu",
               ),
             ],
           ),

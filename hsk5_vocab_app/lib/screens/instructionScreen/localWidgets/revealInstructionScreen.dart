@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hsk5_vocab_app/screens/homeScreen/homeScreen.dart';
 import 'package:hsk5_vocab_app/screens/revealCardsScreen/localWidgets/multipyButton.dart';
 import 'package:hsk5_vocab_app/screens/revealCardsScreen/localWidgets/tickButton.dart';
 import 'package:hsk5_vocab_app/screens/revealCardsScreen/revealSreen.dart';
 import 'package:hsk5_vocab_app/state/currentRoomState.dart';
 import 'package:hsk5_vocab_app/widgets/background.dart';
-import 'package:hsk5_vocab_app/widgets/bottomButton.dart';
+import 'package:hsk5_vocab_app/widgets/bottomButtonStart.dart';
 import 'package:hsk5_vocab_app/widgets/customedAppBar.dart';
-import 'package:hsk5_vocab_app/widgets/shadowButton.dart';
+import 'package:hsk5_vocab_app/widgets/drawer.dart';
 import 'package:provider/provider.dart';
 
 class RevealInstructionScreen extends StatefulWidget {
@@ -17,6 +16,7 @@ class RevealInstructionScreen extends StatefulWidget {
 }
 
 class _RevealInstructionScreenState extends State<RevealInstructionScreen> {
+  GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -28,6 +28,8 @@ class _RevealInstructionScreenState extends State<RevealInstructionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _key,
+      drawer: CustomedDrawer(),
       body: Stack(
         children: [
           Background(
@@ -37,6 +39,7 @@ class _RevealInstructionScreenState extends State<RevealInstructionScreen> {
             children: [
               CustomedAppBar(
                 child: BackButton(),
+                globalKey: _key,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -44,6 +47,15 @@ class _RevealInstructionScreenState extends State<RevealInstructionScreen> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Container(
+                        margin: EdgeInsets.all(15.0),
+                        height: 60,
+                        width: 100,
+                        child: Icon(
+                          Icons.bookmark,
+                          size: 50,
+                        ),
+                      ),
                       Container(
                         margin: EdgeInsets.all(15.0),
                         height: 60,
@@ -77,7 +89,18 @@ class _RevealInstructionScreenState extends State<RevealInstructionScreen> {
                         height: 50,
                         width: 150,
                         child: Text(
-                          "Bam de xem mat sau",
+                          "Giữ thẻ để đánh dấu từ",
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                      ),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                        margin: EdgeInsets.all(20.0),
+                        height: 50,
+                        width: 150,
+                        child: Text(
+                          "Chạm để xem mặt sau",
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
                       ),
@@ -86,7 +109,7 @@ class _RevealInstructionScreenState extends State<RevealInstructionScreen> {
                         height: 50,
                         width: 150,
                         child: Text(
-                          "Chon neu ban nho tu nay",
+                          "Chọn nếu bạn nhớ từ này",
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
                       ),
@@ -95,7 +118,7 @@ class _RevealInstructionScreenState extends State<RevealInstructionScreen> {
                         height: 50,
                         width: 150,
                         child: Text(
-                          "Chon neu ban khong nho tu nay",
+                          "Chọn nếu bạn không nhớ từ này",
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
                       ),
@@ -104,8 +127,8 @@ class _RevealInstructionScreenState extends State<RevealInstructionScreen> {
                 ],
               ),
               BottomButton(
-                route: RevealScreen(),
-                text: "Bat dau",
+                route: "/reveal",
+                text: "Bắt đầu",
               ),
             ],
           ),

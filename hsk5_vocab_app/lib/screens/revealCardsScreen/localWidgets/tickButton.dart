@@ -2,13 +2,23 @@ import 'package:flutter/material.dart';
 
 class TickButton extends StatelessWidget {
   final Function onPressed;
-  const TickButton({Key key, this.onPressed}) : super(key: key);
+  final int isRemembered;
+  const TickButton({Key key, this.onPressed, this.isRemembered})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 30,
+      height: 40,
       width: 110,
       decoration: BoxDecoration(
+        border: (isRemembered == 1)
+            ? Border.all(
+                width: 2,
+              )
+            : Border.all(
+                width: 2,
+                color: Colors.green[900],
+              ),
         color: Colors.green[900],
         borderRadius: BorderRadius.circular(30),
       ),

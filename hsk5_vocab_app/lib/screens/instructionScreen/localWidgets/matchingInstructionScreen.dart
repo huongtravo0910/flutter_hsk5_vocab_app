@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:hsk5_vocab_app/screens/matchingScreen/localWidgets/matchingCard.dart';
-import 'package:hsk5_vocab_app/screens/matchingScreen/localWidgets/matchingCardWithSubText.dart';
-import 'package:hsk5_vocab_app/screens/matchingScreen/matchingScreen.dart';
 import 'package:hsk5_vocab_app/widgets/background.dart';
-import 'package:hsk5_vocab_app/widgets/bottomButton.dart';
+import 'package:hsk5_vocab_app/widgets/bottomButtonStart.dart';
 import 'package:hsk5_vocab_app/widgets/customedAppBar.dart';
+import 'package:hsk5_vocab_app/widgets/drawer.dart';
 
-class MatchingInstructionScreen extends StatelessWidget {
+class MatchingInstructionScreen extends StatefulWidget {
+  @override
+  _MatchingInstructionScreenState createState() =>
+      _MatchingInstructionScreenState();
+}
+
+class _MatchingInstructionScreenState extends State<MatchingInstructionScreen> {
+  GlobalKey<ScaffoldState> _key = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
+    double _deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      key: _key,
+      drawer: CustomedDrawer(),
       body: Stack(
         children: [
           Background(
@@ -19,23 +29,24 @@ class MatchingInstructionScreen extends StatelessWidget {
             children: [
               CustomedAppBar(
                 child: BackButton(),
+                globalKey: _key,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
                     children: [
-                      SizedBox(
-                        height: 150,
-                      ),
+                      Spacer(),
                       MatchingCard(
-                        mainText: "学生",
+                        mainText: "加油",
                         isChosen: false,
                       ),
                       MatchingCard(
                         mainText: "你好",
                         isChosen: true,
                       ),
+                      SizedBox(height: 40),
+                      Spacer(),
                     ],
                   ),
                   SizedBox(
@@ -43,27 +54,26 @@ class MatchingInstructionScreen extends StatelessWidget {
                   ),
                   Column(
                     children: [
-                      SizedBox(
-                        height: 150,
-                      ),
-                      MatchingCardWithSubText(
-                        mainText: "Xin chao",
-                        subText: "Xi-n Cha-o",
+                      Spacer(),
+                      MatchingCard(
+                        mainText: "xin chào",
                         isChosen: true,
                       ),
-                      MatchingCardWithSubText(
-                        mainText: "Hoc sinh",
-                        subText: "Ho-c si-nh",
+                      MatchingCard(
+                        mainText: "cố lên",
                         isChosen: false,
                       ),
+                      SizedBox(height: 40),
+                      Spacer(),
                     ],
                   ),
                 ],
               ),
               Column(
                 children: [
+                  Spacer(),
                   SizedBox(
-                    height: 330,
+                    height: 200,
                   ),
                   Row(
                     children: [
@@ -91,18 +101,19 @@ class MatchingInstructionScreen extends StatelessWidget {
                             height: 30,
                           ),
                           Text(
-                            "Bam chon cac the 2 ben cot phu hop ",
+                            "Bấm chọn các thẻ 2 bên cột phù hợp ",
                             style: Theme.of(context).textTheme.bodyText2,
                           ),
                         ],
                       ),
                     ],
-                  )
+                  ),
+                  Spacer(),
                 ],
               ),
               BottomButton(
-                route: MatchingScreen(),
-                text: "Bat dau",
+                route: "/matching",
+                text: "Bắt đầu",
               ),
             ],
           ),

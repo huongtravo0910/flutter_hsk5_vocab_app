@@ -1,16 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:hsk5_vocab_app/screens/completeVocabScreen/completeVocabScreen.dart';
+import 'package:hsk5_vocab_app/screens/foo2.dart';
 import 'package:hsk5_vocab_app/screens/homeScreen/homeScreen.dart';
 import 'package:hsk5_vocab_app/screens/instructionScreen/instructionScreen.dart';
 import 'package:hsk5_vocab_app/screens/matchingScreen/matchingScreen.dart';
 import 'package:hsk5_vocab_app/screens/methodsScreen/methodsScreen.dart';
 import 'package:hsk5_vocab_app/screens/quizScreen/quizScreen.dart';
 import 'package:hsk5_vocab_app/screens/revealCardsScreen/revealSreen.dart';
+import 'package:hsk5_vocab_app/screens/reviewScreen/reviewScreen.dart';
+import 'package:hsk5_vocab_app/screens/settingScreen/settingScreen.dart';
+import 'package:hsk5_vocab_app/screens/trackingScreen/trackingScreen.dart';
+import 'package:hsk5_vocab_app/services/wordService.dart';
 import 'package:hsk5_vocab_app/state/currentPackage.dart';
 import 'package:hsk5_vocab_app/state/currentRoomState.dart';
 import 'package:hsk5_vocab_app/utils/ourTheme.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  final isFirstTimeOpenApp = _prefs.getBool("isFirstTimeOpenApp");
+  if (isFirstTimeOpenApp == null) {
+    WordService().deleteWords();
+    _prefs.setBool("isFirstTimeOpenApp", false);
+    _prefs.setBool("isWordToDefinitionState", true);
+    _prefs.setString("historyList", "");
+  }
+  WordService();
+  await Future.delayed(Duration(milliseconds: 200));
   runApp(MyApp());
 }
 
@@ -27,6 +45,8 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           "/": (context) => HomeScreen(),
+          "/completevocab": (context) => CompleteVocabScreen(),
+          "/review": (context) => ReviewScreen(),
           "/method": (context) => MethodsScreen(),
           "/revealInstruction": (context) =>
               InstructionScreen(type: "revealing"),
@@ -36,11 +56,13 @@ class MyApp extends StatelessWidget {
           "/matchingInstruction": (context) =>
               InstructionScreen(type: "matching"),
           "/matching": (context) => MatchingScreen(),
+          "/setting": (context) => SettingScreen(),
+          "/tracking": (context) => TrackingScreen(),
         },
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: OurTheme().buildTheme(),
-        // home: TestScreen2(),
+        // home: Foo2(),
       ),
     );
   }

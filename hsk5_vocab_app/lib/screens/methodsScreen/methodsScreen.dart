@@ -5,6 +5,8 @@ import 'package:hsk5_vocab_app/screens/methodsScreen/localWidgets/methodCard.dar
 import 'package:hsk5_vocab_app/screens/methodsScreen/localWidgets/methodDropdown.dart';
 import 'package:hsk5_vocab_app/state/currentPackage.dart';
 import 'package:hsk5_vocab_app/widgets/background.dart';
+import 'package:hsk5_vocab_app/widgets/customedAppBar.dart';
+import 'package:hsk5_vocab_app/widgets/drawer.dart';
 import 'package:provider/provider.dart';
 
 class MethodScreenArgs {
@@ -20,6 +22,7 @@ class MethodsScreen extends StatefulWidget {
 }
 
 class _MethodsScreenState extends State<MethodsScreen> {
+  GlobalKey<ScaffoldState> _key = GlobalKey();
   PackageModel _currentPackage;
   @override
   void initState() {
@@ -42,47 +45,53 @@ class _MethodsScreenState extends State<MethodsScreen> {
     final MethodScreenArgs args = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
+      key: _key,
+      drawer: CustomedDrawer(),
       body: Stack(children: [
         Background(
           imageURL: "assets/images/bg2.png",
         ),
+        CustomedAppBar(
+          child: BackButton(),
+          globalKey: _key,
+        ),
         Column(
           children: [
-            CustomedMethodAppBar(
-              child2: Text(
-                _currentPackage.name,
-                style: Theme.of(context).textTheme.subtitle1,
+            Spacer(),
+            Center(
+              child: Column(
+                children: [
+                  MethodDropdown(
+                    endRoomNo: _currentPackage.numOfRooms,
+                    startIndexOfPackage: _currentPackage.startIndex,
+                    numOfCards: args.numOfCards,
+                  ), //Widget can provider
+                  MethodCard(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed("/revealInstruction");
+                    },
+                    icon: Icon(Icons.book),
+                    subtitle: "Xem các thẻ cơ bản",
+                    title: "Flashcard",
+                  ),
+                  MethodCard(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed("/quizInstruction");
+                    },
+                    icon: Icon(Icons.playlist_add_check),
+                    subtitle: "Chọn câu trả lời đúng",
+                    title: "Câu hỏi",
+                  ),
+                  MethodCard(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed("/matchingInstruction");
+                    },
+                    icon: Icon(Icons.vertical_split),
+                    subtitle: "Ghép các từ với định nghĩa",
+                    title: "Nối từ",
+                  ),
+                ],
               ),
-              child1: BackButton(),
-            ),
-            MethodDropdown(
-              endRoomNo: _currentPackage.numOfRooms,
-              startIndexOfPackage: _currentPackage.startIndex,
-              numOfCards: args.numOfCards,
-            ), //Widget can provider
-            MethodCard(
-              onPressed: () {
-                Navigator.of(context).pushNamed("/revealInstruction");
-              },
-              icon: Icon(Icons.book),
-              subtitle: "Xem cac the co ban",
-              title: "Flashcard",
-            ),
-            MethodCard(
-              onPressed: () {
-                Navigator.of(context).pushNamed("/quizInstruction");
-              },
-              icon: Icon(Icons.playlist_add_check),
-              subtitle: "Chon cau tra loi dung",
-              title: "Cau hoi",
-            ),
-            MethodCard(
-              onPressed: () {
-                Navigator.of(context).pushNamed("/matchingInstruction");
-              },
-              icon: Icon(Icons.vertical_split),
-              subtitle: "Ghep cac tu voi dinh nghia",
-              title: "Noi tu",
             ),
             Spacer(),
           ],

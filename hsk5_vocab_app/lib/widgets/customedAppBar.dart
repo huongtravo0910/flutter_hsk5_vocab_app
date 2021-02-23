@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hsk5_vocab_app/screens/homeScreen/homeScreen.dart';
 
 class CustomedAppBar extends StatelessWidget {
   final Widget child;
-  const CustomedAppBar({Key key, this.child}) : super(key: key);
+  final GlobalKey<ScaffoldState> globalKey;
+  const CustomedAppBar({Key key, this.child, this.globalKey}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -14,16 +14,12 @@ class CustomedAppBar extends StatelessWidget {
           child,
           FlatButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => HomeScreen(),
-                  ),
-                );
+                globalKey.currentState.openDrawer();
+                debugPrint("Yo");
               },
               child: Icon(
-                Icons.home,
-                size: 35,
+                Icons.menu,
+                size: 30,
               ))
         ],
       ),
