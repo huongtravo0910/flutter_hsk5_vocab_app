@@ -12,15 +12,18 @@ class CustomedAppBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           child,
-          FlatButton(
-              onPressed: () {
-                globalKey.currentState.openDrawer();
-                debugPrint("Yo");
-              },
-              child: Icon(
-                Icons.menu,
-                size: 30,
-              ))
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 60, 0),
+            child: InkWell(
+                onTap: () {
+                  globalKey.currentState.openDrawer();
+                  debugPrint("Yo");
+                },
+                child: Icon(
+                  Icons.menu,
+                  size: 30,
+                )),
+          )
         ],
       ),
     );

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hsk5_vocab_app/screens/trackingScreen/localModels/historyModel.dart';
 import 'package:hsk5_vocab_app/screens/trackingScreen/localWidgets/statistics.dart';
+import 'package:hsk5_vocab_app/services/historyService.dart';
 import 'package:hsk5_vocab_app/widgets/background.dart';
 import 'package:hsk5_vocab_app/widgets/drawer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'localWidgets/event.dart';
 import 'localWidgets/timeLine.dart';
 import 'localWidgets/sideIcon.dart';
@@ -49,7 +48,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 70, 0, 0),
-            child: onScreen(),
+            child: onScreen(context),
           ),
           appBar(context, _key),
         ],
@@ -57,17 +56,19 @@ class _TrackingScreenState extends State<TrackingScreen> {
     );
   }
 
-  Widget onScreen() {
+  Widget onScreen(BuildContext context) {
     Widget ret;
     switch (_page) {
       case "history":
         return ret = Padding(
           padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
           child: Timeline(
-            children:
-                _historyList.map((history) => event(history, context)).toList(),
+            children: _historyList
+                .map<Widget>((history) => event(history, context))
+                .toList(),
             indicators: _historyList
-                .map((history) => indicator(history.getStudiedType(), context))
+                .map<Widget>(
+                    (history) => indicator(history.getStudiedType(), context))
                 .toList(),
           ),
         );
@@ -83,28 +84,28 @@ class _TrackingScreenState extends State<TrackingScreen> {
     return ret;
   }
 
+  // void _getHistoryModelList() async {
+  //   SharedPreferences _prefs = await SharedPreferences.getInstance();
+  //   String historyPref = _prefs.getString("historyList");
+  //   if (historyPref != null && historyPref != "") {
+  //     setState(() {
+  //       _historyList = HistoryModel.decode(historyPref);
+  //     });
+  //   }
+  // }
+
   void _getHistoryModelList() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    String historyPref = _prefs.getString("historyList");
-    if (historyPref != null && historyPref != "") {
+    try {
+      List<HistoryModel> _historyData =
+          await HistoryService().getHistoryLimitOffset(0);
       setState(() {
-        _historyList = HistoryModel.decode(historyPref);
+        _historyList = _historyData;
       });
+    } catch (e, s) {
+      debugPrint(e.toString());
+      debugPrint(s.toString());
     }
   }
-
-  // HistoryModel _history1 = HistoryModel(
-  //     dateTime: DateTime.now(),
-  //     packageName: "Goi 1",
-  //     studiedType: "matchingGame",
-  //     numOfCard: 20,
-  //     roomName: "Phong 1");
-  // HistoryModel _history2 = HistoryModel(
-  //     dateTime: DateTime.now(),
-  //     packageName: "Goi 2",
-  //     studiedType: "revealGame",
-  //     numOfCard: 10,
-  //     roomName: "Phong 2");
 
   Widget appBar(BuildContext context, GlobalKey<ScaffoldState> key) {
     double _deviceHeight = MediaQuery.of(context).size.height;
@@ -156,16 +157,6 @@ class _TrackingScreenState extends State<TrackingScreen> {
                     _page = "history";
                   });
                 },
-
-                //Foo
-                // child: Text("Yo",
-                //     style: TextStyle(color: Theme.of(context).primaryColor)),
-                // onTap: () {
-                //   debugPrint("From yo");
-                // },
-                // onLongPress: () {
-                //   debugPrint("From yo");
-                // },
               ),
             ],
           ),

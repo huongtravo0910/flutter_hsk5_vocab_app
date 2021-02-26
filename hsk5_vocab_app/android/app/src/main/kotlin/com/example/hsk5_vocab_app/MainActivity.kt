@@ -1,4 +1,4 @@
-package com.example.hsk5_vocab_app
+package com.huongtra.hsk5_vocab_app
 
 import io.flutter.embedding.android.FlutterActivity
 

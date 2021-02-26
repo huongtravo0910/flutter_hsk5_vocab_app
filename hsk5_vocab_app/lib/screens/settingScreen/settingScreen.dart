@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hsk5_vocab_app/models/wordModel.dart';
 import 'package:hsk5_vocab_app/screens/settingScreen/localWidgets/settingCard.dart';
+import 'package:hsk5_vocab_app/screens/trackingScreen/localModels/historyModel.dart';
+import 'package:hsk5_vocab_app/services/historyService.dart';
 import 'package:hsk5_vocab_app/services/wordService.dart';
 import 'package:hsk5_vocab_app/widgets/background.dart';
 import 'package:hsk5_vocab_app/widgets/drawer.dart';
@@ -173,7 +175,6 @@ class _SettingScreenState extends State<SettingScreen> {
   }
 
   void _cleanHistory() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    _prefs.setString("historyList", "");
+    HistoryService().deleteHistory();
   }
 }

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 Widget indicator(String type, BuildContext context) {
   Icon icon;
   switch (type) {
-    case "Noi tu":
+    case "Nối từ":
       {
         icon = Icon(
-          Icons.map_outlined,
+          Icons.vertical_split,
           color: Theme.of(context).secondaryHeaderColor.withOpacity(0.5),
           size: 20,
         );
@@ -15,7 +15,16 @@ Widget indicator(String type, BuildContext context) {
     case "Flash card":
       {
         icon = Icon(
-          Icons.bookmark,
+          Icons.book,
+          color: Theme.of(context).secondaryHeaderColor.withOpacity(0.5),
+          size: 20,
+        );
+      }
+      break;
+    case "Câu hỏi":
+      {
+        icon = Icon(
+          Icons.playlist_add_check,
           color: Theme.of(context).secondaryHeaderColor.withOpacity(0.5),
           size: 20,
         );

@@ -13,7 +13,7 @@ class CustomedDrawer extends StatelessWidget {
           ),
           Container(
             height: 100,
-            child: Image.asset("assets/images/panda.png"),
+            child: Image.asset("assets/images/logo.png"),
           ),
           Divider(),
           ListTile(

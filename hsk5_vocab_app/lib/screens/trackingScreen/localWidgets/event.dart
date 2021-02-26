@@ -53,13 +53,12 @@ Widget event(HistoryModel historyModel, BuildContext context) {
       ),
       Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 40, 0),
-        child: Text("Bạn đã học " +
-            historyModel.getNumOfCards().toString() +
-            " từ vựng trong " +
-            historyModel.getPackageName() +
-            "-" +
+        child: Text(historyModel.getPackageName() +
+            " - " +
             historyModel.getroomName() +
-            ", thành thạo 10 từ, chưa nhớ 0 từ. "),
+            " - " +
+            historyModel.getNumOfCards().toString() +
+            " từ"),
       ),
       SizedBox(
         height: 10,

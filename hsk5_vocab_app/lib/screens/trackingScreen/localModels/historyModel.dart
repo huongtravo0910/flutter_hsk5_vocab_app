@@ -43,11 +43,11 @@ class HistoryModel {
 
   static Map<String, dynamic> toMap(HistoryModel history) {
     return {
-      "dateTime": history.getDateTime().toString(),
-      "numOfCards": history.getNumOfCards().toString(),
+      "numOfCards": history.getNumOfCards(),
       "studiedType": history.getStudiedType(),
       "packageName": history.getPackageName(),
       "roomName": history.getroomName(),
+      "dateTime": history.getDateTime().toString(),
     };
   }
 

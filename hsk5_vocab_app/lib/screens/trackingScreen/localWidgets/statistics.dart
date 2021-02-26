@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:hsk5_vocab_app/services/wordService.dart';
+import 'package:hsk5_vocab_app/utils/random.dart';
 import 'package:hsk5_vocab_app/widgets/indicator.dart';
 
 class Statistics extends StatefulWidget {
@@ -57,108 +58,155 @@ class _StatisticsState extends State<Statistics> {
   @override
   Widget build(BuildContext context) {
     return Builder(
-      builder: (context) => Padding(
-        padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
-        child: AspectRatio(
-          aspectRatio: 1.3,
-          child: Card(
-            color: Theme.of(context).primaryColor.withOpacity(0.6),
-            shadowColor: Colors.black.withOpacity(0.6),
-            child: Row(
-              children: <Widget>[
-                const SizedBox(
-                  width: 40,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      builder: (context) => Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+            child: AspectRatio(
+              aspectRatio: 1.3,
+              child: Card(
+                color: Theme.of(context).primaryColor.withOpacity(1),
+                shadowColor: Colors.black.withOpacity(0.6),
+                child: Row(
                   children: <Widget>[
-                    Indicator(
-                      color: Theme.of(context).accentColor,
-                      text: 'Ghi nho',
-                      isSquare: false,
-                      size: touchedIndex == 0 ? 18 : 16,
-                      textColor: Theme.of(context).secondaryHeaderColor,
-                      fontWeight: touchedIndex == 0
-                          ? FontWeight.bold
-                          : FontWeight.normal,
+                    const SizedBox(
+                      width: 40,
                     ),
-                    Indicator(
-                      color: Theme.of(context).secondaryHeaderColor,
-                      text: 'Chua nho',
-                      isSquare: false,
-                      size: touchedIndex == 1 ? 18 : 16,
-                      textColor: Theme.of(context).secondaryHeaderColor,
-                      fontWeight: touchedIndex == 1
-                          ? FontWeight.bold
-                          : FontWeight.normal,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Indicator(
+                          color: Colors.green,
+                          text: 'Từ đã thành thạo',
+                          isSquare: false,
+                          size: touchedIndex == 0 ? 18 : 16,
+                          textColor: Theme.of(context).secondaryHeaderColor,
+                          fontWeight: touchedIndex == 0
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                        ),
+                        Indicator(
+                          color: Theme.of(context).accentColor,
+                          text: 'Từ sắp thành thạo',
+                          isSquare: false,
+                          size: touchedIndex == 1 ? 18 : 16,
+                          textColor: Theme.of(context).secondaryHeaderColor,
+                          fontWeight: touchedIndex == 1
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                        ),
+                        Indicator(
+                          color: Colors.grey,
+                          text: 'Từ mới',
+                          isSquare: false,
+                          size: touchedIndex == 2 ? 18 : 16,
+                          textColor: Theme.of(context).secondaryHeaderColor,
+                          fontWeight: touchedIndex == 2
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                        ),
+                        Indicator(
+                          color: Theme.of(context).secondaryHeaderColor,
+                          text: 'Từ chưa gắn trạng thái',
+                          isSquare: false,
+                          size: touchedIndex == 3 ? 18 : 16,
+                          textColor: Theme.of(context).secondaryHeaderColor,
+                          fontWeight: touchedIndex == 3
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                        ),
+                      ],
                     ),
-                    Indicator(
-                      color: Theme.of(context).primaryColor,
-                      text: 'Chua hoc',
-                      isSquare: false,
-                      size: touchedIndex == 2 ? 18 : 16,
-                      textColor: Theme.of(context).secondaryHeaderColor,
-                      fontWeight: touchedIndex == 2
-                          ? FontWeight.bold
-                          : FontWeight.normal,
+                    const SizedBox(
+                      height: 18,
                     ),
-                    Indicator(
-                      color: Colors.green,
-                      text: 'Chua gan trang thai',
-                      isSquare: false,
-                      size: touchedIndex == 3 ? 18 : 16,
-                      textColor: Theme.of(context).secondaryHeaderColor,
-                      fontWeight: touchedIndex == 3
-                          ? FontWeight.bold
-                          : FontWeight.normal,
+                    Expanded(
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: (numOfRememberedWords != null &&
+                                numOfForgotWords != null &&
+                                numOfUnstudiedWords != null &&
+                                numOfRemainingWords != null)
+                            ? PieChart(
+                                PieChartData(
+                                    pieTouchData: PieTouchData(
+                                        touchCallback: (pieTouchResponse) {
+                                      setState(() {
+                                        if (pieTouchResponse.touchInput
+                                                is FlLongPressEnd ||
+                                            pieTouchResponse.touchInput
+                                                is FlPanEnd) {
+                                          touchedIndex = -1;
+                                        } else {
+                                          touchedIndex = pieTouchResponse
+                                              .touchedSectionIndex;
+                                        }
+                                      });
+                                    }),
+                                    startDegreeOffset: 180,
+                                    borderData: FlBorderData(
+                                      show: false,
+                                    ),
+                                    sectionsSpace: 1,
+                                    centerSpaceRadius: 0,
+                                    sections: showingSections()),
+                              )
+                            : SizedBox.shrink(),
+                      ),
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 18,
-                ),
-                Expanded(
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: (numOfRememberedWords != null &&
-                            numOfForgotWords != null &&
-                            numOfUnstudiedWords != null &&
-                            numOfRemainingWords != null)
-                        ? PieChart(
-                            PieChartData(
-                                pieTouchData: PieTouchData(
-                                    touchCallback: (pieTouchResponse) {
-                                  setState(() {
-                                    if (pieTouchResponse.touchInput
-                                            is FlLongPressEnd ||
-                                        pieTouchResponse.touchInput
-                                            is FlPanEnd) {
-                                      touchedIndex = -1;
-                                    } else {
-                                      touchedIndex =
-                                          pieTouchResponse.touchedSectionIndex;
-                                    }
-                                  });
-                                }),
-                                startDegreeOffset: 180,
-                                borderData: FlBorderData(
-                                  show: false,
-                                ),
-                                sectionsSpace: 1,
-                                centerSpaceRadius: 0,
-                                sections: showingSections()),
-                          )
-                        : SizedBox.shrink(),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+          Spacer(),
+          panda(context, numOfRememberedWords, numOfUnstudiedWords),
+          Spacer(),
+        ],
       ),
     );
+  }
+
+  Widget panda(
+      BuildContext context, int numOfRememberedWords, int numOfUnstudiedWords) {
+    double _deviceWidth = MediaQuery.of(context).size.width;
+    double _deviceHeight = MediaQuery.of(context).size.height;
+    List<String> pandaList = [
+      "assets/images/panda1.png",
+      "assets/images/panda2.png",
+      "assets/images/panda3.png",
+      "assets/images/panda4.png",
+      "assets/images/panda5.png"
+    ];
+    return Center(
+      child: Container(
+          height: _deviceHeight / 5,
+          width: _deviceWidth,
+          child: pandaSelected(
+              pandaList, numOfRememberedWords, numOfUnstudiedWords)),
+    );
+  }
+
+  Widget pandaSelected(List<String> pandaList, int numOfRememberedWords,
+      int numOfUnstudiedWords) {
+    if ((numOfUnstudiedWords == 1300)) {
+      return Image.asset(
+        pandaList[0],
+        alignment: Alignment.center,
+      );
+    } else if (numOfRememberedWords == 1300) {
+      return Image.asset(
+        pandaList[4],
+        alignment: Alignment.center,
+      );
+    } else {
+      return Image.asset(
+        pandaList[randomValue(1, 4)],
+        alignment: Alignment.center,
+      );
+    }
   }
 
   List<PieChartSectionData> showingSections() {
@@ -205,7 +253,7 @@ class _StatisticsState extends State<Statistics> {
             );
           case 2:
             return PieChartSectionData(
-              color: Theme.of(context).primaryColor.withOpacity(opacity),
+              color: Colors.grey.withOpacity(opacity),
               value: (numOfUnstudiedWords != null)
                   ? (numOfUnstudiedWords / numOfAllWords) * 100
                   : 0,

@@ -10,6 +10,8 @@ import 'package:hsk5_vocab_app/screens/revealCardsScreen/revealSreen.dart';
 import 'package:hsk5_vocab_app/screens/reviewScreen/reviewScreen.dart';
 import 'package:hsk5_vocab_app/screens/settingScreen/settingScreen.dart';
 import 'package:hsk5_vocab_app/screens/trackingScreen/trackingScreen.dart';
+import 'package:hsk5_vocab_app/services/databaseService.dart';
+import 'package:hsk5_vocab_app/services/historyService.dart';
 import 'package:hsk5_vocab_app/services/wordService.dart';
 import 'package:hsk5_vocab_app/state/currentPackage.dart';
 import 'package:hsk5_vocab_app/state/currentRoomState.dart';
@@ -22,13 +24,13 @@ void main() async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   final isFirstTimeOpenApp = _prefs.getBool("isFirstTimeOpenApp");
   if (isFirstTimeOpenApp == null) {
-    WordService().deleteWords();
+    await DatabaseService().deleteDB();
     _prefs.setBool("isFirstTimeOpenApp", false);
     _prefs.setBool("isWordToDefinitionState", true);
-    _prefs.setString("historyList", "");
+    // _prefs.setString("historyList", "");
   }
-  WordService();
-  await Future.delayed(Duration(milliseconds: 200));
+  await DatabaseService().initDatabase();
+  // await Future.delayed(Duration(milliseconds: 200));
   runApp(MyApp());
 }
 
