@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hsk5_vocab_app/models/wordModel.dart';
+import 'package:hsk5_vocab_app/screens/settingScreen/localWidgets/confirmDialog.dart';
 import 'package:hsk5_vocab_app/screens/settingScreen/localWidgets/settingCard.dart';
 import 'package:hsk5_vocab_app/screens/trackingScreen/localModels/historyModel.dart';
 import 'package:hsk5_vocab_app/services/historyService.dart';
@@ -119,47 +120,24 @@ class _SettingScreenState extends State<SettingScreen> {
                                       ),
                               ),
                             ),
-                            // SettingCard(
-                            //   title: "Thông báo",
-                            //   subtitle: "Bật thông báo học từ vựng",
-                            //   child: InkWell(
-                            //     onTap: () {},
-                            //     child: _isWordToDefinitionState
-                            //         ? Icon(Icons.toggle_off, size: 50)
-                            //         : Icon(
-                            //             Icons.toggle_on,
-                            //             size: 50,
-                            //             color: Theme.of(context).accentColor,
-                            //           ),
-                            //   ),
-                            // ),
                             SettingCard(
-                              title: "Reset",
-                              child: RaisedButton(
+                                title: "Reset",
+                                child: RaisedButton(
                                   child: Text(
                                     "Reset",
                                     style: TextStyle(
                                         color: Theme.of(context).primaryColor),
                                   ),
                                   onPressed: () async {
-                                    dynamic _data = json.decode(
-                                        await DefaultAssetBundle.of(context)
-                                            .loadString(
-                                                "assets/completeHsk5Vocab.json"));
-                                    for (var i = 0; i < 1300; i++) {
-                                      WordModel word = WordModel(
-                                          stt: _data[i]["no"],
-                                          definition: _data[i]["definition"],
-                                          pronounciation: _data[i]
-                                              ["pronunciation"],
-                                          word: _data[i]["word"],
-                                          isMarked: false,
-                                          remembered: 2);
-                                      WordService().updateWord(word);
-                                    }
-                                    _cleanHistory();
-                                  }),
-                            ),
+                                    showDialog<void>(
+                                        context: context,
+                                        barrierDismissible:
+                                            false, // user must tap button!
+                                        builder: (_) {
+                                          return ConfirmDialog();
+                                        });
+                                  },
+                                )),
                           ],
                         ),
                       ),
@@ -172,9 +150,5 @@ class _SettingScreenState extends State<SettingScreen> {
         ),
       ),
     );
-  }
-
-  void _cleanHistory() async {
-    HistoryService().deleteHistory();
   }
 }

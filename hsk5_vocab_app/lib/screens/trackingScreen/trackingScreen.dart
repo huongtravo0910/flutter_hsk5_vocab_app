@@ -15,6 +15,8 @@ class TrackingScreen extends StatefulWidget {
 
 class _TrackingScreenState extends State<TrackingScreen> {
   String _page;
+  int _size;
+  bool _isAll;
   List<HistoryModel> _historyList;
 
   @override
@@ -24,8 +26,11 @@ class _TrackingScreenState extends State<TrackingScreen> {
     setState(() {
       _page = "statistics";
       _historyList = [];
+      _size = 1;
+      _isAll = false;
     });
-    WidgetsBinding.instance.addPostFrameCallback((_) => _getHistoryModelList());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _getHistoryModelList(_size));
   }
 
   @override
@@ -62,44 +67,56 @@ class _TrackingScreenState extends State<TrackingScreen> {
       case "history":
         return ret = Padding(
           padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
-          child: Timeline(
-            children: _historyList
-                .map<Widget>((history) => event(history, context))
-                .toList(),
-            indicators: _historyList
-                .map<Widget>(
-                    (history) => indicator(history.getStudiedType(), context))
-                .toList(),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Timeline(
+                  children: _historyList
+                      .map<Widget>((history) => event(history, context))
+                      .toList(),
+                  indicators: _historyList
+                      .map<Widget>((history) =>
+                          indicator(history.getStudiedType(), context))
+                      .toList(),
+                ),
+                _isAll
+                    ? SizedBox.shrink()
+                    : RaisedButton(
+                        child: Text(
+                          "Tiếp tục",
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _size += 10;
+                            _getHistoryModelList(_size);
+                          });
+                        },
+                      ),
+              ],
+            ),
           ),
         );
         break;
       case "statistics":
-        return ret =
-
-            // SizedBox.shrink();
-
-            Statistics();
+        return ret = Statistics();
         break;
     }
     return ret;
   }
 
-  // void _getHistoryModelList() async {
-  //   SharedPreferences _prefs = await SharedPreferences.getInstance();
-  //   String historyPref = _prefs.getString("historyList");
-  //   if (historyPref != null && historyPref != "") {
-  //     setState(() {
-  //       _historyList = HistoryModel.decode(historyPref);
-  //     });
-  //   }
-  // }
-
-  void _getHistoryModelList() async {
+  void _getHistoryModelList(int size) async {
     try {
       List<HistoryModel> _historyData =
-          await HistoryService().getHistoryLimitOffset(0);
+          await HistoryService().getHistoryLimitOffset(size * 10);
+      if (_historyData.length < size * 10) {
+        setState(() {
+          _isAll = true;
+        });
+      }
       setState(() {
         _historyList = _historyData;
+        debugPrint(_historyList.length.toString());
       });
     } catch (e, s) {
       debugPrint(e.toString());

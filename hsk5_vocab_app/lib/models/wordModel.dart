@@ -36,10 +36,6 @@ class WordModel {
     return isStudied;
   }
 
-  // void setIsStudied(bool isStudied) {
-  //   this.isStudied = isStudied;
-  // }
-
   WordModel({
     this.definition,
     this.pronounciation,

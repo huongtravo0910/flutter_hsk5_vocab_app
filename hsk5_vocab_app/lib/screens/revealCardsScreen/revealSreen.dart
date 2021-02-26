@@ -10,6 +10,8 @@ import 'package:hsk5_vocab_app/screens/revealCardsScreen/localWidgets/multipyBut
 import 'package:hsk5_vocab_app/screens/revealCardsScreen/localWidgets/nextButton.dart';
 import 'package:hsk5_vocab_app/screens/revealCardsScreen/localWidgets/previousButton.dart';
 import 'package:hsk5_vocab_app/screens/revealCardsScreen/localWidgets/tickButton.dart';
+import 'package:hsk5_vocab_app/screens/trackingScreen/localModels/historyModel.dart';
+import 'package:hsk5_vocab_app/services/historyService.dart';
 import 'package:hsk5_vocab_app/services/wordService.dart';
 import 'package:hsk5_vocab_app/state/currentPackage.dart';
 import 'package:hsk5_vocab_app/state/currentRoomState.dart';
@@ -400,6 +402,14 @@ class _RevealScreenState extends State<RevealScreen> {
       _rememberedWordsList = [];
       _forgotWordsList = [];
     });
+    DateTime thisTime = DateTime.now();
+    HistoryService().insertHistory(HistoryModel(
+      dateTime: thisTime,
+      packageName: _currentPackage.name,
+      numOfCard: _numOfCards,
+      roomName: _currentRoom.roomName,
+      studiedType: "Flash card",
+    ));
   }
 
   @override

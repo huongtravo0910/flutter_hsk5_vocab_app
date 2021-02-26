@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hsk5_vocab_app/screens/completeVocabScreen/completeVocabScreen.dart';
-import 'package:hsk5_vocab_app/screens/foo2.dart';
 import 'package:hsk5_vocab_app/screens/homeScreen/homeScreen.dart';
 import 'package:hsk5_vocab_app/screens/instructionScreen/instructionScreen.dart';
 import 'package:hsk5_vocab_app/screens/matchingScreen/matchingScreen.dart';
@@ -11,8 +10,6 @@ import 'package:hsk5_vocab_app/screens/reviewScreen/reviewScreen.dart';
 import 'package:hsk5_vocab_app/screens/settingScreen/settingScreen.dart';
 import 'package:hsk5_vocab_app/screens/trackingScreen/trackingScreen.dart';
 import 'package:hsk5_vocab_app/services/databaseService.dart';
-import 'package:hsk5_vocab_app/services/historyService.dart';
-import 'package:hsk5_vocab_app/services/wordService.dart';
 import 'package:hsk5_vocab_app/state/currentPackage.dart';
 import 'package:hsk5_vocab_app/state/currentRoomState.dart';
 import 'package:hsk5_vocab_app/utils/ourTheme.dart';

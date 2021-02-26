@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="dbe4d1a3-2dd9-4b4e-a90d-b2354fa1c1db" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/choiceModel.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/wordModel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/wordModel.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/homeScreen/homeScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/homeScreen/homeScreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/homeScreen/localWigets/homeCard.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/instructionScreen/localWidgets/matchingInstructionScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/instructionScreen/localWidgets/matchingInstructionScreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/instructionScreen/localWidgets/quizInstructionScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/instructionScreen/localWidgets/quizInstructionScreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/instructionScreen/localWidgets/revealInstructionScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/instructionScreen/localWidgets/revealInstructionScreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/matchingScreen/localWidgets/matchingCard2.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/matchingScreen/matchingScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/matchingScreen/matchingScreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/methodsScreen/localWidgets/methodCard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/methodsScreen/localWidgets/methodCard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/methodsScreen/localWidgets/methodDropdown.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/methodsScreen/localWidgets/methodDropdown.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/methodsScreen/localWidgets/outlinedCircle.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/methodsScreen/methodsScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/methodsScreen/methodsScreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/quizScreen/quizScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quizScreen/quizScreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/revealCardsScreen/localWidgets/movingCard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/revealCardsScreen/localWidgets/movingCard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/revealCardsScreen/localWidgets/multipyButton.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/revealCardsScreen/localWidgets/multipyButton.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/revealCardsScreen/localWidgets/tickButton.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/revealCardsScreen/localWidgets/tickButton.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/revealCardsScreen/revealSreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/revealCardsScreen/revealSreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/testScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/testScreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/testScreen2.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/bottomButton.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/widgets/customedAppBar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/customedAppBar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Nexus_4_API_22]" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1mxUlZf4C4z4vJluBwSEB7676Ow" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="dart.analysis.tool.window.force.activate" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../examples/flutter_assets_audioplayer/android" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dbe4d1a3-2dd9-4b4e-a90d-b2354fa1c1db" name="Default Changelist" comment="" />
+      <created>1610434886522</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1610434886522</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="167" y="125" width="1653" height="855" key="AVDManager" timestamp="1610947743630">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="167" y="125" width="1653" height="855" key="AVDManager/67.27.1853.1053@67.27.1853.1053" timestamp="1610947743630" />
+    <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1613880782894">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1613880782894" />
+    <state x="482" y="187" key="SettingsEditor" timestamp="1613469856477">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="482" y="187" key="SettingsEditor/67.27.1853.1053@67.27.1853.1053" timestamp="1613469856477" />
+  </component>
+</project>
