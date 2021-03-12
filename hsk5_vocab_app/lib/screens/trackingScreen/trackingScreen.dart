@@ -37,26 +37,28 @@ class _TrackingScreenState extends State<TrackingScreen> {
   Widget build(BuildContext context) {
     GlobalKey<ScaffoldState> _key = GlobalKey();
     double _deviceWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      key: _key,
-      drawer: CustomedDrawer(),
-      body: Stack(
-        children: [
-          Background(
-            imageURL: "assets/images/bg2.png",
-          ),
-          Center(
-            child: Container(
-              width: _deviceWidth - 20,
-              color: Theme.of(context).primaryColor.withOpacity(0.6),
+    return SafeArea(
+      child: Scaffold(
+        key: _key,
+        drawer: CustomedDrawer(),
+        body: Stack(
+          children: [
+            Background(
+              imageURL: "assets/images/bg2.png",
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 70, 0, 0),
-            child: onScreen(context),
-          ),
-          appBar(context, _key),
-        ],
+            Center(
+              child: Container(
+                width: _deviceWidth - 20,
+                color: Theme.of(context).primaryColor.withOpacity(0.6),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 70, 0, 0),
+              child: onScreen(context),
+            ),
+            appBar(context, _key),
+          ],
+        ),
       ),
     );
   }

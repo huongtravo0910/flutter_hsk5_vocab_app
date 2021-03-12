@@ -357,134 +357,136 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     double _deviceHeight = MediaQuery.of(context).size.height;
     double _deviceWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      key: _key,
-      drawer: CustomedDrawer(),
-      body: Stack(
-        children: [
-          Background(
-            imageURL: "assets/images/bg2.png",
-          ),
-          Stack(
-            children: [
-              CustomedAppBar(
-                globalKey: _key,
-                child: Text(
-                  _wordNoInRoom.toString() + "/" + _numOfCards.toString(),
-                  style: Theme.of(context).textTheme.subtitle1,
+    return SafeArea(
+      child: Scaffold(
+        key: _key,
+        drawer: CustomedDrawer(),
+        body: Stack(
+          children: [
+            Background(
+              imageURL: "assets/images/bg2.png",
+            ),
+            Stack(
+              children: [
+                CustomedAppBar(
+                  globalKey: _key,
+                  child: Text(
+                    _wordNoInRoom.toString() + "/" + _numOfCards.toString(),
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
                 ),
-              ),
-              if (_currentWord != null)
-                Column(
-                  children: [
-                    Spacer(),
-                    Center(
-                      child: Text(
-                        _isWordToDefinition
-                            ? _currentWord.getWord
-                            : _currentWord.getDefinition,
-                        style: Theme.of(context).textTheme.headline3,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Center(
-                      child: AnswerBar(
-                        isChosen: isAnswerChosen[0],
-                        isCorrect: isCorrect(choices[0]),
-                        isTapped: _isTouched,
-                        choice: _isWordToDefinition
-                            ? choices[0].getDefinition
-                            : choices[0].getWord,
-                        onPressed: () => (_isFreezed == false)
-                            ? handleOnPressed(choices[0], 0)
-                            : () {},
-                      ),
-                    ),
-                    Center(
-                      child: AnswerBar(
-                        isChosen: isAnswerChosen[1],
-                        isCorrect: isCorrect(choices[1]),
-                        isTapped: _isTouched,
-                        choice: _isWordToDefinition
-                            ? choices[1].getDefinition
-                            : choices[1].getWord,
-                        onPressed: () => (_isFreezed == false)
-                            ? handleOnPressed(choices[1], 1)
-                            : () {},
-                      ),
-                    ),
-                    Center(
-                      child: AnswerBar(
-                        isChosen: isAnswerChosen[2],
-                        isCorrect: isCorrect(choices[2]),
-                        isTapped: _isTouched,
-                        choice: _isWordToDefinition
-                            ? choices[2].getDefinition
-                            : choices[2].getWord,
-                        onPressed: () => (_isFreezed == false)
-                            ? handleOnPressed(choices[2], 2)
-                            : () {},
-                      ),
-                    ),
-                    Center(
-                      child: AnswerBar(
-                        isChosen: isAnswerChosen[3],
-                        isCorrect: isCorrect(choices[3]),
-                        isTapped: _isTouched,
-                        choice: _isWordToDefinition
-                            ? choices[3].getDefinition
-                            : choices[3].getWord,
-                        onPressed: () => (_isFreezed == false)
-                            ? handleOnPressed(choices[3], 3)
-                            : () {},
-                      ),
-                    ),
-                    SizedBox(
-                      height: _deviceHeight / 8,
-                    ),
-                    Spacer(),
-                  ],
-                ),
-            ],
-          ),
-          _isTouched && (_wordNoInRoom < _numOfCards)
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ShadowButton(
-                          onPressed: _goNext,
-                          child: Text(
-                            "Tiep tuc",
-                            style: Theme.of(context).textTheme.subtitle2,
-                          ),
+                if (_currentWord != null)
+                  Column(
+                    children: [
+                      Spacer(),
+                      Center(
+                        child: Text(
+                          _isWordToDefinition
+                              ? _currentWord.getWord
+                              : _currentWord.getDefinition,
+                          style: Theme.of(context).textTheme.headline3,
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                  ],
-                )
-              : SizedBox.shrink(),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              BottomBar(
-                roomName: (_currentRoom != null) ? _currentRoom.roomName : "",
-                packageName:
-                    (_currentPackage != null) ? _currentPackage.name : "",
-              ),
-              SizedBox(
-                height: 20,
-              ),
-            ],
-          ),
-        ],
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Center(
+                        child: AnswerBar(
+                          isChosen: isAnswerChosen[0],
+                          isCorrect: isCorrect(choices[0]),
+                          isTapped: _isTouched,
+                          choice: _isWordToDefinition
+                              ? choices[0].getDefinition
+                              : choices[0].getWord,
+                          onPressed: () => (_isFreezed == false)
+                              ? handleOnPressed(choices[0], 0)
+                              : () {},
+                        ),
+                      ),
+                      Center(
+                        child: AnswerBar(
+                          isChosen: isAnswerChosen[1],
+                          isCorrect: isCorrect(choices[1]),
+                          isTapped: _isTouched,
+                          choice: _isWordToDefinition
+                              ? choices[1].getDefinition
+                              : choices[1].getWord,
+                          onPressed: () => (_isFreezed == false)
+                              ? handleOnPressed(choices[1], 1)
+                              : () {},
+                        ),
+                      ),
+                      Center(
+                        child: AnswerBar(
+                          isChosen: isAnswerChosen[2],
+                          isCorrect: isCorrect(choices[2]),
+                          isTapped: _isTouched,
+                          choice: _isWordToDefinition
+                              ? choices[2].getDefinition
+                              : choices[2].getWord,
+                          onPressed: () => (_isFreezed == false)
+                              ? handleOnPressed(choices[2], 2)
+                              : () {},
+                        ),
+                      ),
+                      Center(
+                        child: AnswerBar(
+                          isChosen: isAnswerChosen[3],
+                          isCorrect: isCorrect(choices[3]),
+                          isTapped: _isTouched,
+                          choice: _isWordToDefinition
+                              ? choices[3].getDefinition
+                              : choices[3].getWord,
+                          onPressed: () => (_isFreezed == false)
+                              ? handleOnPressed(choices[3], 3)
+                              : () {},
+                        ),
+                      ),
+                      SizedBox(
+                        height: _deviceHeight / 8,
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+              ],
+            ),
+            _isTouched && (_wordNoInRoom < _numOfCards)
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ShadowButton(
+                            onPressed: _goNext,
+                            child: Text(
+                              "Tiep tuc",
+                              style: Theme.of(context).textTheme.subtitle2,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 50,
+                      ),
+                    ],
+                  )
+                : SizedBox.shrink(),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                BottomBar(
+                  roomName: (_currentRoom != null) ? _currentRoom.roomName : "",
+                  packageName:
+                      (_currentPackage != null) ? _currentPackage.name : "",
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

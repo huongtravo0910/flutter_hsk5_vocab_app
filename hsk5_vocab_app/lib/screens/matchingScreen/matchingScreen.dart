@@ -89,58 +89,60 @@ class _MatchingScreenState extends State<MatchingScreen> {
   @override
   Widget build(BuildContext context) {
     (choices.length == 0) ? gameOver = true : gameOver = false;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Score : $score/${_actualNumOfCards.toString()}"),
-      ),
-      body: Stack(
-        children: [
-          Background(
-            imageURL: "assets/images/bg2.png",
-          ),
-          if (!gameOver)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SingleChildScrollView(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: choices.map((choice) {
-                        return Draggable<ChoiceModel>(
-                            data: choice,
-                            child: MatchingCard(
-                              mainText: _isWordToDefinition
-                                  ? choice.word
-                                  : choice.definition,
-                              isChosen: false,
-                            ),
-                            feedback: MatchingCard(
-                              mainText: _isWordToDefinition
-                                  ? choice.word
-                                  : choice.definition,
-                              isChosen: false,
-                            ),
-                            childWhenDragging: MatchingCard(
-                              mainText: _isWordToDefinition
-                                  ? choice.word
-                                  : choice.definition,
-                              isChosen: false,
-                            ));
-                      }).toList()),
-                ),
-                SingleChildScrollView(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: choices2
-                          .map((choice) => _buildDragTarget(choice))
-                          .toList()),
-                ),
-              ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Score : $score/${_actualNumOfCards.toString()}"),
+        ),
+        body: Stack(
+          children: [
+            Background(
+              imageURL: "assets/images/bg2.png",
             ),
-          if (gameOver) Text("Chuc mung ban da hoan thanh tro choi."),
-        ],
+            if (!gameOver)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SingleChildScrollView(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: choices.map((choice) {
+                          return Draggable<ChoiceModel>(
+                              data: choice,
+                              child: MatchingCard(
+                                mainText: _isWordToDefinition
+                                    ? choice.word
+                                    : choice.definition,
+                                isChosen: false,
+                              ),
+                              feedback: MatchingCard(
+                                mainText: _isWordToDefinition
+                                    ? choice.word
+                                    : choice.definition,
+                                isChosen: false,
+                              ),
+                              childWhenDragging: MatchingCard(
+                                mainText: _isWordToDefinition
+                                    ? choice.word
+                                    : choice.definition,
+                                isChosen: false,
+                              ));
+                        }).toList()),
+                  ),
+                  SingleChildScrollView(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: choices2
+                            .map((choice) => _buildDragTarget(choice))
+                            .toList()),
+                  ),
+                ],
+              ),
+            if (gameOver) Text("Chuc mung ban da hoan thanh tro choi."),
+          ],
+        ),
       ),
     );
   }

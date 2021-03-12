@@ -44,59 +44,61 @@ class _MethodsScreenState extends State<MethodsScreen> {
   Widget build(BuildContext context) {
     final MethodScreenArgs args = ModalRoute.of(context).settings.arguments;
 
-    return Scaffold(
-      key: _key,
-      drawer: CustomedDrawer(),
-      body: Stack(children: [
-        Background(
-          imageURL: "assets/images/bg2.png",
-        ),
-        CustomedAppBar(
-          child: BackButton(),
-          globalKey: _key,
-        ),
-        Column(
-          children: [
-            Spacer(),
-            Center(
-              child: Column(
-                children: [
-                  MethodDropdown(
-                    endRoomNo: _currentPackage.numOfRooms,
-                    startIndexOfPackage: _currentPackage.startIndex,
-                    numOfCards: args.numOfCards,
-                  ), //Widget can provider
-                  MethodCard(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed("/revealInstruction");
-                    },
-                    icon: Icon(Icons.book),
-                    subtitle: "Xem các thẻ cơ bản",
-                    title: "Flashcard",
-                  ),
-                  MethodCard(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed("/quizInstruction");
-                    },
-                    icon: Icon(Icons.playlist_add_check),
-                    subtitle: "Chọn câu trả lời đúng",
-                    title: "Câu hỏi",
-                  ),
-                  MethodCard(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed("/matchingInstruction");
-                    },
-                    icon: Icon(Icons.vertical_split),
-                    subtitle: "Ghép các từ với định nghĩa",
-                    title: "Nối từ",
-                  ),
-                ],
+    return SafeArea(
+      child: Scaffold(
+        key: _key,
+        drawer: CustomedDrawer(),
+        body: Stack(children: [
+          Background(
+            imageURL: "assets/images/bg2.png",
+          ),
+          CustomedAppBar(
+            child: BackButton(),
+            globalKey: _key,
+          ),
+          Column(
+            children: [
+              Spacer(),
+              Center(
+                child: Column(
+                  children: [
+                    MethodDropdown(
+                      endRoomNo: _currentPackage.numOfRooms,
+                      startIndexOfPackage: _currentPackage.startIndex,
+                      numOfCards: args.numOfCards,
+                    ), //Widget can provider
+                    MethodCard(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed("/revealInstruction");
+                      },
+                      icon: Icon(Icons.book),
+                      subtitle: "Xem các thẻ cơ bản",
+                      title: "Flashcard",
+                    ),
+                    MethodCard(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed("/quizInstruction");
+                      },
+                      icon: Icon(Icons.playlist_add_check),
+                      subtitle: "Chọn câu trả lời đúng",
+                      title: "Câu hỏi",
+                    ),
+                    MethodCard(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed("/matchingInstruction");
+                      },
+                      icon: Icon(Icons.vertical_split),
+                      subtitle: "Ghép các từ với định nghĩa",
+                      title: "Nối từ",
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Spacer(),
-          ],
-        ),
-      ]),
+              Spacer(),
+            ],
+          ),
+        ]),
+      ),
     );
   }
 }

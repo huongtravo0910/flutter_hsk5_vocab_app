@@ -48,54 +48,56 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Builder(
-        builder: (context) => Stack(
-          children: [
-            Background(
-              imageURL: "assets/images/bg1.png",
-            ),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Spacer(),
-                  HomeCard(
-                    title: "Từ vựng HSK5",
-                    icon: Icon(Icons.book),
-                    onPressed: () {
-                      Navigator.pushNamed(context, "/completevocab");
-                    },
-                  ),
-                  HomeCard(
-                    title: "Ôn tập",
-                    icon: Icon(Icons.library_books),
-                    onPressed: () {
-                      Navigator.pushNamed(context, "/review");
-                    },
-                  ),
-                  HomeCard(
-                    title: "Theo dõi",
-                    icon: Icon(Icons.track_changes),
-                    onPressed: () {
-                      Navigator.pushNamed(context, "/tracking");
-                    },
-                  ),
-                  HomeCard(
-                    title: "Cài đặt",
-                    icon: Icon(Icons.settings),
-                    onPressed: () {
-                      Navigator.pushNamed(context, "/setting");
-                    },
-                  ),
-                  Spacer(),
-                ],
+    return SafeArea(
+      child: Scaffold(
+        body: Builder(
+          builder: (context) => Stack(
+            children: [
+              Background(
+                imageURL: "assets/images/bg1.png",
               ),
-            ),
-          ],
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Spacer(),
+                    HomeCard(
+                      title: "Từ vựng HSK5",
+                      icon: Icon(Icons.book),
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/completevocab");
+                      },
+                    ),
+                    HomeCard(
+                      title: "Ôn tập",
+                      icon: Icon(Icons.library_books),
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/review");
+                      },
+                    ),
+                    HomeCard(
+                      title: "Theo dõi",
+                      icon: Icon(Icons.track_changes),
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/tracking");
+                      },
+                    ),
+                    HomeCard(
+                      title: "Cài đặt",
+                      icon: Icon(Icons.settings),
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/setting");
+                      },
+                    ),
+                    Spacer(),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

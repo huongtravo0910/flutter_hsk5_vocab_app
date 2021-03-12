@@ -252,10 +252,10 @@ class _RevealScreenState extends State<RevealScreen> {
           child: Column(
             children: [
               Text(
-                "Tu nho:" + _rememberedWordsList.length.toString(),
+                "Từ nhớ:" + _rememberedWordsList.length.toString(),
                 style: TextStyle(color: Colors.green[900]),
               ),
-              Text("Tu quen:" + _forgotWordsList.length.toString(),
+              Text("Từ quên:" + _forgotWordsList.length.toString(),
                   style: TextStyle(
                     color: Theme.of(context).accentColor,
                   )),
@@ -416,204 +416,208 @@ class _RevealScreenState extends State<RevealScreen> {
   Widget build(BuildContext context) {
     double _deviceHeight = MediaQuery.of(context).size.height;
     double _deviceWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      drawer: CustomedDrawer(),
-      key: _key,
-      floatingActionButton: (_numOfCards == _wordNoInRoom)
-          ? FloatingActionButton(
-              backgroundColor: Theme.of(context).primaryColor,
-              mini: true,
-              onPressed: () {
-                Future.delayed(const Duration(milliseconds: 200), () {
-                  _showMyDialog();
-                });
-              },
-              child: Icon(
-                Icons.done,
-                color: Theme.of(context).secondaryHeaderColor,
-              ),
-            )
-          : SizedBox.shrink(),
-      body: Stack(
-        children: [
-          Background(
-            imageURL: "assets/images/bg2.png",
-          ),
-          CustomedAppBar(
-            globalKey: _key,
-            child: Text(
-              _wordNoInRoom.toString() + "/" + _numOfCards.toString(),
-              style: Theme.of(context).textTheme.subtitle1,
+    return SafeArea(
+      child: Scaffold(
+        drawer: CustomedDrawer(),
+        key: _key,
+        floatingActionButton: (_numOfCards == _wordNoInRoom)
+            ? FloatingActionButton(
+                backgroundColor: Theme.of(context).primaryColor,
+                mini: true,
+                onPressed: () {
+                  Future.delayed(const Duration(milliseconds: 200), () {
+                    _showMyDialog();
+                  });
+                },
+                child: Icon(
+                  Icons.done,
+                  color: Theme.of(context).secondaryHeaderColor,
+                ),
+              )
+            : SizedBox.shrink(),
+        body: Stack(
+          children: [
+            Background(
+              imageURL: "assets/images/bg2.png",
             ),
-          ),
-          Stack(
-            children: [
-              if (_currentWord != null)
+            CustomedAppBar(
+              globalKey: _key,
+              child: Text(
+                _wordNoInRoom.toString() + "/" + _numOfCards.toString(),
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+            ),
+            Stack(
+              children: [
+                if (_currentWord != null)
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: _deviceWidth / 3,
+                      ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onLongPress: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return StatefulBuilder(builder:
+                                    (BuildContext context,
+                                        StateSetter setState) {
+                                  return MarkedDialog(
+                                    checkbox: Checkbox(
+                                      value: _currentWord.isMarked,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _currentWord.isMarked =
+                                              !_currentWord.isMarked;
+                                        });
+                                        _saveIsMarkedWord();
+                                      },
+                                    ),
+                                  );
+                                });
+                              });
+                        },
+                        child: MovingCardWidget(
+                          urlFront: _isWordToDefinition
+                              ? _currentWord.getWord
+                              : _currentWord.getDefinition,
+                          urlBack: "/" + _currentWord.getPronounciation + "/",
+                        ),
+                      ),
+                      SizedBox(
+                        height: _deviceHeight / 20,
+                      ),
+                      _isTouched
+                          ? Center(
+                              child: BackCard(
+                                text: _isWordToDefinition
+                                    ? _currentWord.getDefinition
+                                    : _currentWord.getWord,
+                              ),
+                            )
+                          : SizedBox.shrink(),
+                    ],
+                  ),
                 Column(
                   children: [
-                    SizedBox(
-                      height: _deviceWidth / 3,
-                    ),
-                    GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onLongPress: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return StatefulBuilder(builder:
-                                  (BuildContext context, StateSetter setState) {
-                                return MarkedDialog(
-                                  checkbox: Checkbox(
-                                    value: _currentWord.isMarked,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _currentWord.isMarked =
-                                            !_currentWord.isMarked;
-                                      });
-                                      _saveIsMarkedWord();
-                                    },
-                                  ),
-                                );
-                              });
-                            });
-                      },
-                      child: MovingCardWidget(
-                        urlFront: _isWordToDefinition
-                            ? _currentWord.getWord
-                            : _currentWord.getDefinition,
-                        urlBack: "/" + _currentWord.getPronounciation + "/",
-                      ),
-                    ),
-                    SizedBox(
-                      height: _deviceHeight / 20,
-                    ),
-                    _isTouched
+                    Spacer(),
+                    SizedBox(height: _deviceHeight / 8),
+                    !_isTouched
                         ? Center(
-                            child: BackCard(
-                              text: _isWordToDefinition
-                                  ? _currentWord.getDefinition
-                                  : _currentWord.getWord,
+                            child: Icon(
+                              Icons.touch_app,
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.5),
+                              size: 70,
                             ),
                           )
                         : SizedBox.shrink(),
+                    Spacer(),
                   ],
                 ),
-              Column(
-                children: [
-                  Spacer(),
-                  SizedBox(height: _deviceHeight / 8),
-                  !_isTouched
-                      ? Center(
-                          child: Icon(
-                            Icons.touch_app,
-                            color:
-                                Theme.of(context).primaryColor.withOpacity(0.5),
-                            size: 70,
-                          ),
-                        )
-                      : SizedBox.shrink(),
-                  Spacer(),
-                ],
-              ),
-              Column(
-                children: [
-                  Spacer(),
-                  SizedBox(
-                    height: _deviceHeight / 3 * 2,
-                  ),
-                  _isTouched
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            TickButton(
-                              onPressed: () {
-                                _countRememberedWord(_currentWord);
-                                _saveRememberedWord();
-                              },
-                              isRemembered: _currentWord.remembered,
-                            ),
-                            SizedBox(width: 21),
-                            MultipyButton(
-                              onPressed: () {
-                                _countForgotWord(_currentWord);
-                                _saveForgotWord();
-                              },
-                              isRemembered: _currentWord.remembered,
-                            ),
-                          ],
-                        )
-                      : SizedBox.shrink(),
-                  Spacer(),
-                ],
-              ),
-              Column(
-                children: [
-                  Spacer(),
-                  SizedBox(height: _deviceHeight / 8),
-                  Center(
-                    child: Container(
-                      height: _deviceHeight / 3 * 1.5,
-                      width: _deviceWidth * 9 / 10,
-                      color: Colors.white.withOpacity(0.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _isTouched = !_isTouched;
-                            _saveStudiedWord();
-                          });
-                        },
+                Column(
+                  children: [
+                    Spacer(),
+                    SizedBox(
+                      height: _deviceHeight / 3 * 2,
+                    ),
+                    _isTouched
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TickButton(
+                                onPressed: () {
+                                  _countRememberedWord(_currentWord);
+                                  _saveRememberedWord();
+                                },
+                                isRemembered: _currentWord.remembered,
+                              ),
+                              SizedBox(width: 21),
+                              MultipyButton(
+                                onPressed: () {
+                                  _countForgotWord(_currentWord);
+                                  _saveForgotWord();
+                                },
+                                isRemembered: _currentWord.remembered,
+                              ),
+                            ],
+                          )
+                        : SizedBox.shrink(),
+                    Spacer(),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Spacer(),
+                    SizedBox(height: _deviceHeight / 8),
+                    Center(
+                      child: Container(
+                        height: _deviceHeight / 3 * 1.5,
+                        width: _deviceWidth * 9 / 10,
+                        color: Colors.white.withOpacity(0.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isTouched = !_isTouched;
+                              _saveStudiedWord();
+                            });
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                  Spacer(),
-                ],
-              ),
-            ],
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  (_wordNoInRoom > 1)
-                      ? PreviousButton(onPressed: () => _goPrevious())
-                      : SizedBox(width: 30),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  (_wordNoInRoom != null &&
-                          _numOfCards != null &&
-                          _wordNoInRoom < _numOfCards)
-                      ? NextButton(onPressed: () {
-                          _saveStudiedWord();
-                          _goNext();
-                        })
-                      : SizedBox(width: 30),
-                ],
-              ),
-              SizedBox(
-                height: 40,
-              ),
-            ],
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SizedBox(
-                height: 550,
-              ),
-              BottomBar(
-                roomName: (_currentRoom != null) ? _currentRoom.roomName : "",
-                packageName:
-                    (_currentPackage != null) ? _currentPackage.name : "",
-              ),
-              SizedBox(
-                height: 20,
-              ),
-            ],
-          ),
-        ],
+                    Spacer(),
+                  ],
+                ),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    (_wordNoInRoom > 1)
+                        ? PreviousButton(onPressed: () => _goPrevious())
+                        : SizedBox(width: 30),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    (_wordNoInRoom != null &&
+                            _numOfCards != null &&
+                            _wordNoInRoom < _numOfCards)
+                        ? NextButton(onPressed: () {
+                            _saveStudiedWord();
+                            _goNext();
+                          })
+                        : SizedBox(width: 30),
+                  ],
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(
+                  height: 550,
+                ),
+                BottomBar(
+                  roomName: (_currentRoom != null) ? _currentRoom.roomName : "",
+                  packageName:
+                      (_currentPackage != null) ? _currentPackage.name : "",
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

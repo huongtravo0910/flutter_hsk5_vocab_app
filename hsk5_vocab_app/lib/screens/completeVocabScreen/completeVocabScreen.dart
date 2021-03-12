@@ -139,128 +139,130 @@ class _CompleteVocabScreenState extends State<CompleteVocabScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: CustomedDrawer(),
-      body: Builder(
-        builder: (context) => Stack(
-          children: [
-            Background(
-              imageURL: "assets/images/bg1.png",
-            ),
-            Row(
-              children: [
-                Spacer(),
-                Column(
-                  children: [
-                    Spacer(),
-                    Text(
-                      "Các gói từ vựng",
-                      style: Theme.of(context).textTheme.subtitle1,
-                    ),
-                    CompleteVocabCard(
-                      title: "250 tu",
-                      subtitle: "Gói 1",
-                      isChosen: _isFirstColumnChosen[0],
-                      onPressed: () => _setIndex(0, 249, 1),
-                    ),
-                    CompleteVocabCard(
-                      title: "250 từ",
-                      subtitle: "Gói 2",
-                      isChosen: _isFirstColumnChosen[1],
-                      onPressed: () => _setIndex(250, 499, 2),
-                    ),
-                    CompleteVocabCard(
-                      title: "250 từ",
-                      subtitle: "Gói 3",
-                      isChosen: _isFirstColumnChosen[2],
-                      onPressed: () => _setIndex(500, 749, 3),
-                    ),
-                    CompleteVocabCard(
-                      title: "250 từ",
-                      subtitle: "Gói 4",
-                      isChosen: _isFirstColumnChosen[3],
-                      onPressed: () => _setIndex(750, 999, 4),
-                    ),
-                    CompleteVocabCard(
-                      title: "300 từ",
-                      subtitle: "Gói 5",
-                      isChosen: _isFirstColumnChosen[4],
-                      onPressed: () => _setIndex(1000, 1299, 5),
-                    ),
-                    CompleteVocabCard(
-                      title: "1300 từ",
-                      subtitle: "Gói 6",
-                      isChosen: _isFirstColumnChosen[5],
-                      onPressed: () => _setIndex(0, 1299, 6),
-                    ),
-                    Spacer(),
-                  ],
-                ),
-                Spacer(),
-                Column(
-                  children: [
-                    Spacer(),
-                    Text(
-                      "Số lượng thẻ",
-                      style: Theme.of(context).textTheme.subtitle1,
-                    ),
-                    CompleteVocabCard(
-                      title: "10",
-                      isChosen: _isSecondColumnChosen[0],
-                      onPressed: () => _setNumOfCards(10, 1),
-                    ),
-                    CompleteVocabCard(
-                      title: "25",
-                      isChosen: _isSecondColumnChosen[1],
-                      onPressed: () => _setNumOfCards(25, 2),
-                    ),
-                    CompleteVocabCard(
-                      title: "50",
-                      isChosen: _isSecondColumnChosen[2],
-                      onPressed: () => _setNumOfCards(50, 3),
-                    ),
-                    CompleteVocabCard(
-                      title: "100",
-                      isChosen: _isSecondColumnChosen[3],
-                      onPressed: () => _setNumOfCards(100, 4),
-                    ),
-                    CompleteVocabCard(
-                      title: "250",
-                      isChosen: _isSecondColumnChosen[4],
-                      onPressed: () => _setNumOfCards(250, 5),
-                    ),
-                    CompleteVocabCard(
-                      title: "1300",
-                      isChosen: _isSecondColumnChosen[5],
-                      onPressed: () => _setNumOfCards(1300, 6),
-                    ),
-                    Spacer(),
-                  ],
-                ),
-                Spacer(),
-              ],
-            ),
-            BottomButton(onPressed: () {
-              if (_endIndexOfPackage == 0 ||
-                  _numOfCards == 0 ||
-                  _endIndexOfPackage == null ||
-                  _numOfCards == null) {
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text("Hãy chọn cả 2 cột."),
-                    duration: Duration(seconds: 2),
+    return SafeArea(
+      child: Scaffold(
+        drawer: CustomedDrawer(),
+        body: Builder(
+          builder: (context) => Stack(
+            children: [
+              Background(
+                imageURL: "assets/images/bg1.png",
+              ),
+              Row(
+                children: [
+                  Spacer(),
+                  Column(
+                    children: [
+                      Spacer(),
+                      Text(
+                        "Các gói từ vựng",
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                      CompleteVocabCard(
+                        title: "250 từ",
+                        subtitle: "Gói 1",
+                        isChosen: _isFirstColumnChosen[0],
+                        onPressed: () => _setIndex(0, 249, 1),
+                      ),
+                      CompleteVocabCard(
+                        title: "250 từ",
+                        subtitle: "Gói 2",
+                        isChosen: _isFirstColumnChosen[1],
+                        onPressed: () => _setIndex(250, 499, 2),
+                      ),
+                      CompleteVocabCard(
+                        title: "250 từ",
+                        subtitle: "Gói 3",
+                        isChosen: _isFirstColumnChosen[2],
+                        onPressed: () => _setIndex(500, 749, 3),
+                      ),
+                      CompleteVocabCard(
+                        title: "250 từ",
+                        subtitle: "Gói 4",
+                        isChosen: _isFirstColumnChosen[3],
+                        onPressed: () => _setIndex(750, 999, 4),
+                      ),
+                      CompleteVocabCard(
+                        title: "300 từ",
+                        subtitle: "Gói 5",
+                        isChosen: _isFirstColumnChosen[4],
+                        onPressed: () => _setIndex(1000, 1299, 5),
+                      ),
+                      CompleteVocabCard(
+                        title: "1300 từ",
+                        subtitle: "Gói 6",
+                        isChosen: _isFirstColumnChosen[5],
+                        onPressed: () => _setIndex(0, 1299, 6),
+                      ),
+                      Spacer(),
+                    ],
                   ),
-                );
-              } else {
-                _setCurrentPackage(
-                    _startIndexOfPackage, _endIndexOfPackage, _packageName);
-                Navigator.of(context).pushNamed("/method",
-                    arguments: MethodScreenArgs(
-                      numOfCards: _numOfCards,
-                    ));
-              }
-            }),
-          ],
+                  Spacer(),
+                  Column(
+                    children: [
+                      Spacer(),
+                      Text(
+                        "Số lượng thẻ",
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                      CompleteVocabCard(
+                        title: "10",
+                        isChosen: _isSecondColumnChosen[0],
+                        onPressed: () => _setNumOfCards(10, 1),
+                      ),
+                      CompleteVocabCard(
+                        title: "25",
+                        isChosen: _isSecondColumnChosen[1],
+                        onPressed: () => _setNumOfCards(25, 2),
+                      ),
+                      CompleteVocabCard(
+                        title: "50",
+                        isChosen: _isSecondColumnChosen[2],
+                        onPressed: () => _setNumOfCards(50, 3),
+                      ),
+                      CompleteVocabCard(
+                        title: "100",
+                        isChosen: _isSecondColumnChosen[3],
+                        onPressed: () => _setNumOfCards(100, 4),
+                      ),
+                      CompleteVocabCard(
+                        title: "250",
+                        isChosen: _isSecondColumnChosen[4],
+                        onPressed: () => _setNumOfCards(250, 5),
+                      ),
+                      CompleteVocabCard(
+                        title: "1300",
+                        isChosen: _isSecondColumnChosen[5],
+                        onPressed: () => _setNumOfCards(1300, 6),
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                  Spacer(),
+                ],
+              ),
+              BottomButton(onPressed: () {
+                if (_endIndexOfPackage == 0 ||
+                    _numOfCards == 0 ||
+                    _endIndexOfPackage == null ||
+                    _numOfCards == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("Hãy chọn cả 2 cột."),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                } else {
+                  _setCurrentPackage(
+                      _startIndexOfPackage, _endIndexOfPackage, _packageName);
+                  Navigator.of(context).pushNamed("/method",
+                      arguments: MethodScreenArgs(
+                        numOfCards: _numOfCards,
+                      ));
+                }
+              }),
+            ],
+          ),
         ),
       ),
     );
