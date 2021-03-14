@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:hsk5_vocab_app/models/packageModel.dart';
 
 import 'package:hsk5_vocab_app/models/roomModel.dart';
@@ -56,6 +57,7 @@ class _RevealScreenState extends State<RevealScreen> {
     _rememberedWordsList = [];
     _forgotWordsList = [];
     _isTouched = false;
+    Future.delayed(Duration(milliseconds: 2000));
   }
 
   void _fetchData(BuildContext context) async {
@@ -65,17 +67,17 @@ class _RevealScreenState extends State<RevealScreen> {
         Provider.of<CurrentRoom>(context, listen: false).getRoomModel;
     _currentPackage =
         Provider.of<CurrentPackage>(context, listen: false).getPackageModel;
-    if (_currentPackage.name == "forgot") {
+    if (_currentPackage.name == "Từ chưa nhớ") {
       _data = await WordService().forgotWords();
-    } else if (_currentPackage.name == "marked") {
+    } else if (_currentPackage.name == "Từ đánh dấu") {
       _data = await WordService().markedWords();
-    } else if (_currentPackage.name == "unstudied") {
+    } else if (_currentPackage.name == "Từ mới") {
       _data = await WordService().unstudiedWords();
     } else {
       _data = await WordService().words();
     }
-    debugPrint(
-        "endIndexOfPackage when fetched" + _currentPackage.endIndex.toString());
+    debugPrint("endIndexOfPackage when fetched " +
+        _currentPackage.endIndex.toString());
     Future.delayed(Duration(milliseconds: 300));
     setState(() {
       _currentWordNoInData = _currentRoom.startIndex;
@@ -91,32 +93,32 @@ class _RevealScreenState extends State<RevealScreen> {
     });
   }
 
-  void _goPrevious() async {
-    _countForgotWord(_currentWord);
-    _countRememberedWord(_currentWord);
-    setState(() {
-      _currentWordNoInData -= 1;
-      _data[_currentWordNoInData].isStudied = true;
-      _currentWord = _data[_currentWordNoInData];
-      _wordNoInRoom -= 1;
-      _isTouched = false;
-    });
-    debugPrint("goPrev Word: " + _currentWord.toString());
-  }
+  // void _goPrevious() async {
+  //   _countForgotWord(_currentWord);
+  //   _countRememberedWord(_currentWord);
+  //   setState(() {
+  //     _currentWordNoInData -= 1;
+  //     _data[_currentWordNoInData].isStudied = true;
+  //     _currentWord = _data[_currentWordNoInData];
+  //     _wordNoInRoom -= 1;
+  //     _isTouched = false;
+  //   });
+  //   debugPrint("goPrev Word: " + _currentWord.toString());
+  // }
 
-  void _goNext() async {
-    _countForgotWord(_currentWord);
-    _countRememberedWord(_currentWord);
-    debugPrint("_data.length" + _data.length.toString());
-    debugPrint("endPackageIndex" + _currentPackage.endIndex.toString());
-    debugPrint("_currentWordNoInData" + _currentWordNoInData.toString());
-    setState(() {
-      _currentWordNoInData += 1;
-      _currentWord = _data[_currentWordNoInData];
-      _wordNoInRoom += 1;
-      _isTouched = false;
-    });
-  }
+  // void _goNext() async {
+  //   _countForgotWord(_currentWord);
+  //   _countRememberedWord(_currentWord);
+  //   debugPrint("_data.length" + _data.length.toString());
+  //   debugPrint("endPackageIndex" + _currentPackage.endIndex.toString());
+  //   debugPrint("_currentWordNoInData" + _currentWordNoInData.toString());
+  //   setState(() {
+  //     _currentWordNoInData += 1;
+  //     _currentWord = _data[_currentWordNoInData];
+  //     _wordNoInRoom += 1;
+  //     _isTouched = false;
+  //   });
+  // }
 
   void _countRememberedWord(WordModel word) {
     debugPrint("_rememberedWordsList isEmpty: " +
@@ -266,6 +268,8 @@ class _RevealScreenState extends State<RevealScreen> {
                 ? _goToNextRoom()
                 : _backToHome();
           },
+          numOfCards: _numOfCards,
+          studiedType: "reveal",
         );
       },
     );
@@ -273,9 +277,9 @@ class _RevealScreenState extends State<RevealScreen> {
 
   void _backToHome() {
     debugPrint("Hello");
-    if (_currentPackage.name == "forgot" ||
-        _currentPackage.name == "marked" ||
-        _currentPackage.name == "unstudied") {
+    if (_currentPackage.name == "Từ chưa nhớ" ||
+        _currentPackage.name == "Từ đánh dấu" ||
+        _currentPackage.name == "Từ mới") {
       Navigator.of(context).pushNamed("/review");
     } else {
       Navigator.of(context).pushNamed("/completevocab");
@@ -285,9 +289,9 @@ class _RevealScreenState extends State<RevealScreen> {
   void _goToNextRoom() {
     Navigator.of(context).pop();
 
-    if (_currentPackage.name != "forgot" &&
-        _currentPackage.name != "marked" &&
-        _currentPackage.name != "unstudied") {
+    if (_currentPackage.name != "Từ chưa nhớ" &&
+        _currentPackage.name != "Từ đánh dấu" &&
+        _currentPackage.name != "Từ mới") {
       int noOfRoom = 0;
       int noOfPackage = 0;
       noOfPackage = int.parse(
@@ -423,7 +427,6 @@ class _RevealScreenState extends State<RevealScreen> {
         floatingActionButton: (_numOfCards == _wordNoInRoom)
             ? FloatingActionButton(
                 backgroundColor: Theme.of(context).primaryColor,
-                mini: true,
                 onPressed: () {
                   Future.delayed(const Duration(milliseconds: 200), () {
                     _showMyDialog();
@@ -447,159 +450,185 @@ class _RevealScreenState extends State<RevealScreen> {
                 style: Theme.of(context).textTheme.subtitle1,
               ),
             ),
-            Stack(
-              children: [
-                if (_currentWord != null)
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: _deviceWidth / 3,
-                      ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onLongPress: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return StatefulBuilder(builder:
-                                    (BuildContext context,
-                                        StateSetter setState) {
-                                  return MarkedDialog(
-                                    checkbox: Checkbox(
-                                      value: _currentWord.isMarked,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _currentWord.isMarked =
-                                              !_currentWord.isMarked;
-                                        });
-                                        _saveIsMarkedWord();
-                                      },
-                                    ),
-                                  );
-                                });
-                              });
-                        },
-                        child: MovingCardWidget(
-                          urlFront: _isWordToDefinition
-                              ? _currentWord.getWord
-                              : _currentWord.getDefinition,
-                          urlBack: "/" + _currentWord.getPronounciation + "/",
-                        ),
-                      ),
-                      SizedBox(
-                        height: _deviceHeight / 20,
-                      ),
-                      _isTouched
-                          ? Center(
-                              child: BackCard(
-                                text: _isWordToDefinition
-                                    ? _currentWord.getDefinition
-                                    : _currentWord.getWord,
-                              ),
-                            )
-                          : SizedBox.shrink(),
-                    ],
-                  ),
-                Column(
-                  children: [
-                    Spacer(),
-                    SizedBox(height: _deviceHeight / 8),
-                    !_isTouched
-                        ? Center(
-                            child: Icon(
-                              Icons.touch_app,
-                              color: Theme.of(context)
-                                  .primaryColor
-                                  .withOpacity(0.5),
-                              size: 70,
-                            ),
-                          )
-                        : SizedBox.shrink(),
-                    Spacer(),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Spacer(),
-                    SizedBox(
-                      height: _deviceHeight / 3 * 2,
-                    ),
-                    _isTouched
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
+              child: Swiper(
+                  itemCount: _numOfCards ?? 1,
+                  onIndexChanged: (index) {
+                    _countForgotWord(_currentWord);
+                    _countRememberedWord(_currentWord);
+                    debugPrint("_data.length" + _data.length.toString());
+                    debugPrint("endPackageIndex" +
+                        _currentPackage.endIndex.toString());
+                    debugPrint("_currentWordNoInData" +
+                        _currentWordNoInData.toString());
+                    setState(() {
+                      _currentWordNoInData = _currentRoom.startIndex + index;
+                      _currentWord = _data[_currentWordNoInData];
+                      _isTouched = false;
+                      _wordNoInRoom = index + 1;
+                    });
+                    debugPrint(
+                        "currentWordIndex" + _currentWordNoInData.toString());
+                  },
+                  itemBuilder: (BuildContext context, int index) {
+                    return Stack(
+                      children: [
+                        if (_currentWord != null)
+                          Column(
                             children: [
-                              TickButton(
-                                onPressed: () {
-                                  _countRememberedWord(_currentWord);
-                                  _saveRememberedWord();
-                                },
-                                isRemembered: _currentWord.remembered,
+                              SizedBox(
+                                height: _deviceWidth / 7,
                               ),
-                              SizedBox(width: 21),
-                              MultipyButton(
-                                onPressed: () {
-                                  _countForgotWord(_currentWord);
-                                  _saveForgotWord();
+                              GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onLongPress: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return StatefulBuilder(builder:
+                                            (BuildContext context,
+                                                StateSetter setState) {
+                                          return MarkedDialog(
+                                            checkbox: Checkbox(
+                                              value: _currentWord.isMarked,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  _currentWord.isMarked =
+                                                      !_currentWord.isMarked;
+                                                });
+                                                _saveIsMarkedWord();
+                                              },
+                                            ),
+                                          );
+                                        });
+                                      });
                                 },
-                                isRemembered: _currentWord.remembered,
+                                child: MovingCardWidget(
+                                  urlFront: _isWordToDefinition
+                                      ? _currentWord.getWord
+                                      : _currentWord.getDefinition,
+                                  urlBack: "/" +
+                                      _currentWord.getPronounciation +
+                                      "/",
+                                ),
                               ),
+                              SizedBox(
+                                height: _deviceHeight / 20,
+                              ),
+                              _isTouched
+                                  ? Center(
+                                      child: BackCard(
+                                        text: _isWordToDefinition
+                                            ? _currentWord.getDefinition
+                                            : _currentWord.getWord,
+                                      ),
+                                    )
+                                  : SizedBox.shrink(),
                             ],
-                          )
-                        : SizedBox.shrink(),
-                    Spacer(),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Spacer(),
-                    SizedBox(height: _deviceHeight / 8),
-                    Center(
-                      child: Container(
-                        height: _deviceHeight / 3 * 1.5,
-                        width: _deviceWidth * 9 / 10,
-                        color: Colors.white.withOpacity(0.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isTouched = !_isTouched;
-                              _saveStudiedWord();
-                            });
-                          },
+                          ),
+                        Column(
+                          children: [
+                            Spacer(),
+                            SizedBox(height: _deviceHeight / 8),
+                            !_isTouched
+                                ? Center(
+                                    child: Icon(
+                                      Icons.touch_app,
+                                      color: Theme.of(context)
+                                          .primaryColor
+                                          .withOpacity(0.0),
+                                      size: 70,
+                                    ),
+                                  )
+                                : SizedBox.shrink(),
+                            Spacer(),
+                          ],
                         ),
-                      ),
-                    ),
-                    Spacer(),
-                  ],
-                ),
-              ],
+                        Column(
+                          children: [
+                            Spacer(),
+                            SizedBox(height: _deviceHeight / 8),
+                            Center(
+                              child: Container(
+                                height: _deviceHeight / 3 * 1.5,
+                                width: _deviceWidth * 9 / 10,
+                                color: Colors.white.withOpacity(0.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _isTouched = !_isTouched;
+                                      _saveStudiedWord();
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                            Spacer(),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Spacer(),
+                            SizedBox(
+                              height: _deviceHeight / 2,
+                            ),
+                            _isTouched
+                                ? Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      TickButton(
+                                        onPressed: () {
+                                          _countRememberedWord(_currentWord);
+                                          _saveRememberedWord();
+                                        },
+                                        isRemembered: _currentWord.remembered,
+                                      ),
+                                      SizedBox(width: 21),
+                                      MultipyButton(
+                                        onPressed: () {
+                                          _countForgotWord(_currentWord);
+                                          _saveForgotWord();
+                                        },
+                                        isRemembered: _currentWord.remembered,
+                                      ),
+                                    ],
+                                  )
+                                : SizedBox.shrink(),
+                            Spacer(),
+                          ],
+                        ),
+                      ],
+                    );
+                  }),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    (_wordNoInRoom > 1)
-                        ? PreviousButton(onPressed: () => _goPrevious())
-                        : SizedBox(width: 30),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    (_wordNoInRoom != null &&
-                            _numOfCards != null &&
-                            _wordNoInRoom < _numOfCards)
-                        ? NextButton(onPressed: () {
-                            _saveStudiedWord();
-                            _goNext();
-                          })
-                        : SizedBox(width: 30),
-                  ],
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-              ],
-            ),
+            // Column(
+            //   mainAxisAlignment: MainAxisAlignment.end,
+            //   children: [
+            //     Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: [
+            //         (_wordNoInRoom > 1)
+            //             ? PreviousButton(onPressed: () => _goPrevious())
+            //             : SizedBox(width: 30),
+            //         SizedBox(
+            //           width: 5,
+            //         ),
+            //         (_wordNoInRoom != null &&
+            //                 _numOfCards != null &&
+            //                 _wordNoInRoom < _numOfCards)
+            //             ? NextButton(onPressed: () {
+            //                 _saveStudiedWord();
+            //                 _goNext();
+            //               })
+            //             : SizedBox(width: 30),
+            //       ],
+            //     ),
+            //     SizedBox(
+            //       height: 40,
+            //     ),
+            //   ],
+            // ),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

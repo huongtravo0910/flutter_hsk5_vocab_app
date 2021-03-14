@@ -127,14 +127,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
                       PackageCard(
-                        title: _numOfForgot.toString() + " tu",
+                        title: _numOfForgot.toString() + " từ",
                         subtitle: "Gói ôn tập những từ chưa nhớ",
                         isChosen: _isFirstColumnChosen[0],
                         onPressed: () {
                           setState(() {
                             _endIndexOfPackage = _numOfForgot - 1;
                             _chosenPackageAmount = _numOfForgot;
-                            _packageName = "forgot";
+                            _packageName = "Từ chưa nhớ";
                           });
                           setState(() {
                             _isFirstColumnChosen = [true, false, false];
@@ -149,7 +149,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                           setState(() {
                             _endIndexOfPackage = _numOfMarked - 1;
                             _chosenPackageAmount = _numOfMarked;
-                            _packageName = "marked";
+                            _packageName = "Từ đánh dấu";
                           });
                           setState(() {
                             _isFirstColumnChosen = [false, true, false];
@@ -164,7 +164,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                           setState(() {
                             _endIndexOfPackage = _numOfNew - 1;
                             _chosenPackageAmount = _numOfNew;
-                            _packageName = "unstudied";
+                            _packageName = "Từ mới";
                           });
                           debugPrint("endIndex of unstudied package" +
                               _endIndexOfPackage.toString());

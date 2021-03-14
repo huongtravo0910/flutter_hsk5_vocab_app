@@ -4,6 +4,7 @@ import 'package:hsk5_vocab_app/screens/trackingScreen/localWidgets/statistics.da
 import 'package:hsk5_vocab_app/services/historyService.dart';
 import 'package:hsk5_vocab_app/widgets/background.dart';
 import 'package:hsk5_vocab_app/widgets/drawer.dart';
+import 'package:hsk5_vocab_app/widgets/shadowButton.dart';
 import 'localWidgets/event.dart';
 import 'localWidgets/timeLine.dart';
 import 'localWidgets/sideIcon.dart';
@@ -37,6 +38,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
   Widget build(BuildContext context) {
     GlobalKey<ScaffoldState> _key = GlobalKey();
     double _deviceWidth = MediaQuery.of(context).size.width;
+    double _deviceHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         key: _key,
@@ -53,7 +55,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 70, 0, 0),
+              padding: EdgeInsets.fromLTRB(0, _deviceHeight / 20, 0, 0),
               child: onScreen(context),
             ),
             appBar(context, _key),
@@ -83,14 +85,14 @@ class _TrackingScreenState extends State<TrackingScreen> {
                 ),
                 _isAll
                     ? SizedBox.shrink()
-                    : RaisedButton(
+                    : ShadowButton(
                         child: Text(
                           "Tiếp tục",
                           style: TextStyle(fontSize: 14, color: Colors.white),
                         ),
                         onPressed: () {
                           setState(() {
-                            _size += 10;
+                            _size += 1;
                             _getHistoryModelList(_size);
                           });
                         },
@@ -130,9 +132,8 @@ class _TrackingScreenState extends State<TrackingScreen> {
     double _deviceHeight = MediaQuery.of(context).size.height;
     double _deviceWidth = MediaQuery.of(context).size.width;
     return Container(
-      padding: EdgeInsets.fromLTRB(
-          _deviceWidth / 30, _deviceHeight / 20, _deviceWidth / 30, 0),
-      height: _deviceHeight / 10,
+      padding: EdgeInsets.fromLTRB(_deviceWidth / 30, 0, _deviceWidth / 30, 0),
+      height: _deviceHeight / 20,
       decoration: BoxDecoration(
           color: Theme.of(context).secondaryHeaderColor,
           boxShadow: [BoxShadow(color: Colors.grey[600], blurRadius: 3)]),

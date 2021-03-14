@@ -7,23 +7,19 @@ class CustomedAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(40, 30, 0, 0),
+      padding: const EdgeInsets.fromLTRB(30, 40, 30, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           child,
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 60, 0),
-            child: InkWell(
-                onTap: () {
-                  globalKey.currentState.openDrawer();
-                  debugPrint("Yo");
-                },
-                child: Icon(
-                  Icons.menu,
-                  size: 30,
-                )),
-          )
+          InkWell(
+              onTap: () {
+                globalKey.currentState.openDrawer();
+              },
+              child: Icon(
+                Icons.menu,
+                size: 30,
+              ))
         ],
       ),
     );

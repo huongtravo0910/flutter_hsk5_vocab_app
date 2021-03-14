@@ -70,11 +70,11 @@ class _QuizScreenState extends State<QuizScreen> {
     _currentPackage =
         Provider.of<CurrentPackage>(context, listen: false).getPackageModel;
     _completeData = await WordService().words();
-    if (_currentPackage.name == "forgot") {
+    if (_currentPackage.name == "Từ chưa nhớ") {
       _data = await WordService().forgotWords();
-    } else if (_currentPackage.name == "marked") {
+    } else if (_currentPackage.name == "Từ đánh dấu") {
       _data = await WordService().markedWords();
-    } else if (_currentPackage.name == "unstudied") {
+    } else if (_currentPackage.name == "Từ mới") {
       _data = await WordService().unstudiedWords();
     } else {
       _data = await WordService().words();
@@ -205,6 +205,8 @@ class _QuizScreenState extends State<QuizScreen> {
                   )),
             ],
           ),
+          numOfCards: _numOfCards,
+          studiedType: "quiz",
           onPressed: () {
             _goToNextRoom();
           },
@@ -217,9 +219,9 @@ class _QuizScreenState extends State<QuizScreen> {
     Navigator.of(context).pop();
     int noOfRoom = 0;
     int noOfPackage = 0;
-    if (_currentPackage.name != "marked" &&
-        _currentPackage.name != "unstudied" &&
-        _currentPackage.name != "forgot") {
+    if (_currentPackage.name != "Từ đánh dấu" &&
+        _currentPackage.name != "Từ mới" &&
+        _currentPackage.name != "Từ chưa nhớ") {
       noOfPackage = int.parse(
           _currentPackage.name.substring(_currentPackage.name.length - 1));
       if (_roomName.length == 7) {
@@ -460,7 +462,7 @@ class _QuizScreenState extends State<QuizScreen> {
                           ShadowButton(
                             onPressed: _goNext,
                             child: Text(
-                              "Tiep tuc",
+                              "Tiếp tục",
                               style: Theme.of(context).textTheme.subtitle2,
                             ),
                           ),

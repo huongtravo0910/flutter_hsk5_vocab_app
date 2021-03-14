@@ -53,7 +53,11 @@ class _MethodsScreenState extends State<MethodsScreen> {
             imageURL: "assets/images/bg2.png",
           ),
           CustomedAppBar(
-            child: BackButton(),
+            child: BackButton(
+              onPressed: () {
+                Navigator.pushNamed(context, "/");
+              },
+            ),
             globalKey: _key,
           ),
           Column(

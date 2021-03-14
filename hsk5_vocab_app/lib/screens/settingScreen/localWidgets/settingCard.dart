@@ -16,10 +16,12 @@ class SettingCard extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
+          (title != null)
+              ? Text(
+                  title,
+                  style: Theme.of(context).textTheme.subtitle1,
+                )
+              : SizedBox.shrink(),
           SizedBox(
             height: 10,
           ),
@@ -33,7 +35,7 @@ class SettingCard extends StatelessWidget {
             height: 10,
           ),
           child,
-          Divider(),
+          (title != null) ? Divider() : SizedBox.shrink(),
         ],
       ),
     );

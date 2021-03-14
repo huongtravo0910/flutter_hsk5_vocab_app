@@ -45,11 +45,11 @@ class _MatchingScreenState extends State<MatchingScreen> {
           Provider.of<CurrentRoom>(context, listen: false).getRoomModel;
       PackageModel _currentPackage =
           Provider.of<CurrentPackage>(context, listen: false).getPackageModel;
-      if (_currentPackage.name == "forgot") {
+      if (_currentPackage.name == "Từ chưa nhớ") {
         _data = await WordService().forgotWords();
-      } else if (_currentPackage.name == "marked") {
+      } else if (_currentPackage.name == "Từ đánh dấu") {
         _data = await WordService().markedWords();
-      } else if (_currentPackage.name == "unstudied") {
+      } else if (_currentPackage.name == "Từ mới") {
         _data = await WordService().unstudiedWords();
       } else {
         _data = await WordService().words();
@@ -140,7 +140,8 @@ class _MatchingScreenState extends State<MatchingScreen> {
                   ),
                 ],
               ),
-            if (gameOver) Text("Chuc mung ban da hoan thanh tro choi."),
+            if (gameOver)
+              Center(child: Text("Chúc mừng bạn đã hoàn thành trò chơi!")),
           ],
         ),
       ),

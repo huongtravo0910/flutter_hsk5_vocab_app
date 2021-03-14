@@ -61,7 +61,7 @@ class _StatisticsState extends State<Statistics> {
       builder: (context) => Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
             child: AspectRatio(
               aspectRatio: 1.3,
               child: Card(
@@ -79,7 +79,7 @@ class _StatisticsState extends State<Statistics> {
                       children: <Widget>[
                         Indicator(
                           color: Colors.green,
-                          text: 'Từ đã thành thạo',
+                          text: 'Từ đã nhớ',
                           isSquare: false,
                           size: touchedIndex == 0 ? 18 : 16,
                           textColor: Theme.of(context).secondaryHeaderColor,
@@ -89,7 +89,7 @@ class _StatisticsState extends State<Statistics> {
                         ),
                         Indicator(
                           color: Theme.of(context).accentColor,
-                          text: 'Từ sắp thành thạo',
+                          text: 'Từ chưa nhớ',
                           isSquare: false,
                           size: touchedIndex == 1 ? 18 : 16,
                           textColor: Theme.of(context).secondaryHeaderColor,

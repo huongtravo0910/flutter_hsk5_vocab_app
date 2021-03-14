@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hsk5_vocab_app/models/wordModel.dart';
+import 'package:hsk5_vocab_app/screens/methodsScreen/methodsScreen.dart';
 import 'package:hsk5_vocab_app/screens/settingScreen/localWidgets/confirmDialog.dart';
 import 'package:hsk5_vocab_app/screens/settingScreen/localWidgets/settingCard.dart';
 import 'package:hsk5_vocab_app/screens/trackingScreen/localModels/historyModel.dart';
@@ -9,6 +10,7 @@ import 'package:hsk5_vocab_app/services/historyService.dart';
 import 'package:hsk5_vocab_app/services/wordService.dart';
 import 'package:hsk5_vocab_app/widgets/background.dart';
 import 'package:hsk5_vocab_app/widgets/drawer.dart';
+import 'package:hsk5_vocab_app/widgets/shadowButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -63,7 +65,7 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
               Center(
                 child: Container(
-                  padding: EdgeInsets.fromLTRB(30, 50, 30, 50),
+                  padding: EdgeInsets.fromLTRB(30, 30, 30, 30),
                   alignment: Alignment.center,
                   height: deviceHeight - 60,
                   width: deviceWidth - 40,
@@ -122,8 +124,8 @@ class _SettingScreenState extends State<SettingScreen> {
                                 ),
                               ),
                               SettingCard(
-                                  title: "Reset",
-                                  child: RaisedButton(
+                                title: "Reset",
+                                child: ShadowButton(
                                     child: Text(
                                       "Reset",
                                       style: TextStyle(
@@ -138,8 +140,41 @@ class _SettingScreenState extends State<SettingScreen> {
                                           builder: (_) {
                                             return ConfirmDialog();
                                           });
-                                    },
-                                  )),
+                                    }),
+                              ),
+
+                              //  RaisedButton(
+                              //   child: Text(
+                              //     "Reset",
+                              //     style: TextStyle(
+                              //         color:
+                              //             Theme.of(context).primaryColor),
+                              //   ),
+                              //   onPressed: () async {
+                              //     showDialog<void>(
+                              //         context: context,
+                              //         barrierDismissible:
+                              //             false, // user must tap button!
+                              //         builder: (_) {
+                              //           return ConfirmDialog();
+                              //         });
+                              //   },
+                              // )),
+                              SettingCard(
+                                child: ShadowButton(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.exit_to_app),
+                                      Text("Thoát")
+                                    ],
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed("/");
+                                  },
+                                  isOutlined: true,
+                                ),
+                              ),
                             ],
                           ),
                         ),

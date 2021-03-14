@@ -16,6 +16,8 @@ import 'package:hsk5_vocab_app/utils/ourTheme.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'screens/foo/test_swipe_horizontal.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences _prefs = await SharedPreferences.getInstance();
@@ -61,7 +63,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: OurTheme().buildTheme(),
-        // home: Foo2(),
+        // home: TestSwipeHorizontal(),
       ),
     );
   }
